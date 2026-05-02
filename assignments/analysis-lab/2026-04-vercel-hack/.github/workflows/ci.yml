@@ -1,0 +1,32 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "2026-04-vercel-hack" ]
+  pull_request:
+    branches: [ "main", "2026-04-vercel-hack" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    - name: Install dependencies
+      run: bun install
+      working-directory: assignments/analysis-lab/2026-04-vercel-hack
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+    - name: Run tests
+      run: cargo test
+      working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+    - name: Run clippy
+      run: cargo clippy -- -D warnings
+      working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
