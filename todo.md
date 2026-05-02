@@ -224,39 +224,39 @@
 ## PHASE 2: Saldiri Vektorleri & Riskler
 > _tasks.md Instruction 2: "Outline the attack vector or risk if misconfigured."_
 
-- [ ] Saldiri vektorlerini arastir ve belgele:
-  - [ ] Environment Variable sizmasi (`NEXT_PUBLIC_` ile hassas veri ifsa)
-  - [ ] Source map ifsa (production'da `.map` dosyalari erisimi)
-  - [ ] Serverless function injection (girdi dogrulama eksikligi)
-  - [ ] Open redirect zafiyeti (`vercel.json` redirects yapilandirmasi)
-  - [ ] CORS misconfiguration (wildcard origin, credentials leak)
-  - [ ] Header injection / eksik guvenlik basliklari
-  - [ ] Path traversal (rewrites ile ic API'lara erisim)
-  - [ ] Preview deployment'lara yetkisiz erisim
-  - [ ] Build log'larinda hassas bilgi sizmasi
-  - [ ] DNS takeover (dangling CNAME kayitlari)
-  - [ ] Middleware bypass senaryolari
-  - [ ] API route'larda authentication eksikligi
-- [ ] Her vektor icin risk seviyesi belirle (kritik/yuksek/orta/dusuk)
-- [ ] Rust analiz modulleri yaz — `src-tauri/src/analyzer/`:
-  - [ ] `mod.rs` — modul tanimlari
-  - [ ] `env_exposure.rs` — Aciga cikan env degiskenleri tespit
-  - [ ] `source_maps.rs` — Source map ifsa kontrolu
-  - [ ] `headers.rs` — Guvenlik basliklari analizi (HSTS, CSP, X-Frame, X-Content-Type vb.)
-  - [ ] `cors.rs` — CORS yapilandirma kontrolu
-  - [ ] `redirects.rs` — Open redirect analizi
-  - [ ] `rewrites.rs` — Path traversal / ic API ifsa analizi
-  - [ ] `dns.rs` — DNS yapilandirma ve takeover kontrolu
-  - [ ] `ssl.rs` — SSL/TLS sertifika kontrolu
-  - [ ] `serverless.rs` — Serverless function guvenlik analizi
-  - [ ] `middleware.rs` — Middleware bypass kontrolu
-  - [ ] `preview_auth.rs` — Preview deployment erisim kontrolu
-  - [ ] `build_logs.rs` — Build log hassas bilgi taramasi
-- [ ] Risk skorlama sistemi (CVSS benzeri puanlama)
-- [ ] Frontend'de "Saldiri Vektorleri" sayfasi:
-  - [ ] Vektor listesi ve aciklamalari
-  - [ ] Risk matrisi gorunumu
-  - [ ] Tarama baslat / sonuclari goruntule
+- [x] Saldiri vektorlerini arastir ve belgele:
+  - [x] Environment Variable sizmasi (`NEXT_PUBLIC_` ile hassas veri ifsa)
+  - [x] Source map ifsa (production'da `.map` dosyalari erisimi)
+  - [x] Serverless function injection (girdi dogrulama eksikligi)
+  - [x] Open redirect zafiyeti (`vercel.json` redirects yapilandirmasi)
+  - [x] CORS misconfiguration (wildcard origin, credentials leak)
+  - [x] Header injection / eksik guvenlik basliklari
+  - [x] Path traversal (rewrites ile ic API'lara erisim)
+  - [x] Preview deployment'lara yetkisiz erisim
+  - [x] Build log'larinda hassas bilgi sizmasi
+  - [x] DNS takeover (dangling CNAME kayitlari)
+  - [x] Middleware bypass senaryolari
+  - [x] API route'larda authentication eksikligi
+- [x] Her vektor icin risk seviyesi belirle (kritik/yuksek/orta/dusuk)
+- [x] Rust analiz modulleri yaz — `src-tauri/src/analyzer/`:
+  - [x] `mod.rs` — modul tanimlari
+  - [x] `env_exposure.rs` — Aciga cikan env degiskenleri tespit
+  - [x] `source_maps.rs` — Source map ifsa kontrolu
+  - [x] `headers.rs` — Guvenlik basliklari analizi (HSTS, CSP, X-Frame, X-Content-Type vb.)
+  - [x] `cors.rs` — CORS yapilandirma kontrolu
+  - [x] `redirects.rs` — Open redirect analizi
+  - [x] `rewrites.rs` — Path traversal / ic API ifsa analizi
+  - [x] `dns.rs` — DNS yapilandirma ve takeover kontrolu
+  - [x] `ssl.rs` — SSL/TLS sertifika kontrolu
+  - [x] `serverless.rs` — Serverless function guvenlik analizi
+  - [x] `middleware.rs` — Middleware bypass kontrolu
+  - [x] `preview_auth.rs` — Preview deployment erisim kontrolu
+  - [x] `build_logs.rs` — Build log hassas bilgi taramasi
+- [x] Risk skorlama sistemi (CVSS benzeri puanlama)
+- [x] Frontend'de "Saldiri Vektorleri" sayfasi:
+  - [x] Vektor listesi ve aciklamalari
+  - [x] Risk matrisi gorunumu
+  - [x] Tarama baslat / sonuclari goruntule
 
 ---
 
