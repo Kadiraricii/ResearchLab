@@ -1,9 +1,16 @@
-pub fn get_recommendations() -> Vec<String> {
-    vec![
-        "Environment Variables: NEXT_PUBLIC_ önekini sadece tamamen açık verilerde kullanın.".to_string(),
-        "Headers: HSTS, CSP, X-Frame-Options, X-Content-Type-Options güvenlik başlıklarını mutlaka ekleyin.".to_string(),
-        "Source Maps: productionBrowserSourceMaps değerini false olarak ayarlayın.".to_string(),
-        "CORS: Wildcard (*) kullanmaktan kaçının, erişimi spesifik domainlerle sınırlandırın.".to_string(),
-        "Serverless: Tüm /api rotalarınızda Zod vb. bir kütüphane ile girdi doğrulaması (Input Validation) yapın.".to_string()
-    ]
+use crate::analyzer::{AnalysisReport, RiskLevel};
+
+pub fn get_recommendations(report: &AnalysisReport) -> Vec<String> {
+    let mut recs = Vec::new();
+    
+    if report.vulnerabilities.is_empty() {
+        recs.push("Harika! Sisteminizde bilinen kritik zafiyet bulunamadı. Genel güvenlik standartlarını korumaya devam edin.".to_string());
+        return recs;
+    }
+
+    for vuln in &report.vulnerabilities {
+        recs.push(format!("[{}] {}", vuln.id, vuln.remediation));
+    }
+    
+    recs
 }

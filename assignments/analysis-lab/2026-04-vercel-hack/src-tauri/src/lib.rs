@@ -13,13 +13,9 @@ fn run_analysis(vercel_json: String, next_config: String, env_content: String) -
 }
 
 #[tauri::command]
-fn get_remediation_templates() -> (String, String) {
-    remediation::templates::generate_secure_templates()
-}
-
-#[tauri::command]
-fn generate_recommendations() -> Vec<String> {
-    remediation::recommendations::get_recommendations()
+fn generate_remediation_report(vercel_json: String, next_config: String, env_content: String) -> remediation::RemediationReport {
+    let analysis = analyzer::run_all_analyzers(&vercel_json, &next_config, &env_content);
+    remediation::generate_report(&analysis)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -32,8 +28,7 @@ pub fn run() {
             summary::parse_next_config,
             summary::get_platform_defaults,
             run_analysis,
-            get_remediation_templates,
-            generate_recommendations
+            generate_remediation_report
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
