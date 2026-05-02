@@ -1,0 +1,7 @@
+{
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "editor.formatOnSave": true,
+  "editor.rulers": [100],
+  "tauri.features": ["all"],
+  "rust-analyzer.cargo.features": "all"
+}

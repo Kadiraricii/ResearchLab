@@ -1,0 +1,26 @@
+[licenses]
+unlicensed = "deny"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "ISC",
+    "CC0-1.0",
+]
+deny = [
+    "GPL-3.0-only",
+    "AGPL-3.0-only",
+]
+copyleft = "deny"
+allow-osi-fsf-free = "neither"
+
+[advisories]
+vulnerability = "deny"
+unmaintained = "warn"
+notice = "warn"
+ignore = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+highlight = "all"
