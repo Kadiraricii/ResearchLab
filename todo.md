@@ -263,46 +263,46 @@
 ## PHASE 3: Sertlestirme & Duzeltme Rehberi
 > _tasks.md Instruction 3: "Provide a step-by-step hardening or remediation guide."_
 
-- [ ] Her saldiri vektoru icin adim adim sertlestirme rehberi yaz:
-  - [ ] Env degiskenleri guvenligi:
-    - [ ] `NEXT_PUBLIC_` prefix kullanim kurallari
-    - [ ] Hassas token'lari sadece server-side'da tut
-    - [ ] Vercel dashboard'da env scope ayarlari (Production/Preview/Development)
-  - [ ] HTTP guvenlik basliklari yapilandirmasi:
-    - [ ] `Strict-Transport-Security` (HSTS)
-    - [ ] `Content-Security-Policy` (CSP)
-    - [ ] `X-Frame-Options`
-    - [ ] `X-Content-Type-Options`
-    - [ ] `Referrer-Policy`
-    - [ ] `Permissions-Policy`
-  - [ ] Source map korumasi:
-    - [ ] Production'da source map'leri devre disi birak
-    - [ ] `productionBrowserSourceMaps: false` ayari
-  - [ ] CORS sertlestirme:
-    - [ ] Whitelist bazli origin kontrolu
-    - [ ] Credentials ile wildcard kullanma
-  - [ ] Serverless function guvenligi:
-    - [ ] Girdi dogrulama (input validation)
-    - [ ] Rate limiting
-    - [ ] Authentication middleware
-  - [ ] Preview deployment korumasi:
-    - [ ] Vercel Authentication aktif et
-    - [ ] Password protection
-  - [ ] DNS guvenligi:
-    - [ ] Dangling CNAME temizligi
-    - [ ] DNSSEC aktif et
-  - [ ] Build pipeline guvenligi:
-    - [ ] Build log'larda hassas bilgi maskele
-    - [ ] Build komutlarinda secret yonetimi
-- [ ] Rust modulu — `src-tauri/src/remediation/`:
-  - [ ] `mod.rs` — modul tanimlari
-  - [ ] `recommendations.rs` — Bulgulara gore otomatik oneri uret
-  - [ ] `templates.rs` — Duzeltme sablonlari (vercel.json, next.config.js, headers)
-  - [ ] `scoring.rs` — Sertlestirme skoru hesapla (once/sonra karsilastirma)
-- [ ] Frontend'de "Sertlestirme Rehberi" sayfasi:
-  - [ ] Adim adim checklist gorunumu
-  - [ ] Oncesi/sonrasi yapilandirma karsilastirmasi
-  - [ ] Otomatik duzeltme onerisi butonu
+- [x] Her saldiri vektoru icin adim adim sertlestirme rehberi yaz:
+  - [x] Env degiskenleri guvenligi:
+    - [x] `NEXT_PUBLIC_` prefix kullanim kurallari
+    - [x] Hassas token'lari sadece server-side'da tut
+    - [x] Vercel dashboard'da env scope ayarlari (Production/Preview/Development)
+  - [x] HTTP guvenlik basliklari yapilandirmasi:
+    - [x] `Strict-Transport-Security` (HSTS)
+    - [x] `Content-Security-Policy` (CSP)
+    - [x] `X-Frame-Options`
+    - [x] `X-Content-Type-Options`
+    - [x] `Referrer-Policy`
+    - [x] `Permissions-Policy`
+  - [x] Source map korumasi:
+    - [x] Production'da source map'leri devre disi birak
+    - [x] `productionBrowserSourceMaps: false` ayari
+  - [x] CORS sertlestirme:
+    - [x] Whitelist bazli origin kontrolu
+    - [x] Credentials ile wildcard kullanma
+  - [x] Serverless function guvenligi:
+    - [x] Girdi dogrulama (input validation)
+    - [x] Rate limiting
+    - [x] Authentication middleware
+  - [x] Preview deployment korumasi:
+    - [x] Vercel Authentication aktif et
+    - [x] Password protection
+  - [x] DNS guvenligi:
+    - [x] Dangling CNAME temizligi
+    - [x] DNSSEC aktif et
+  - [x] Build pipeline guvenligi:
+    - [x] Build log'larda hassas bilgi maskele
+    - [x] Build komutlarinda secret yonetimi
+- [x] Rust modulu — `src-tauri/src/remediation/`:
+  - [x] `mod.rs` — modul tanimlari
+  - [x] `recommendations.rs` — Bulgulara gore otomatik oneri uret
+  - [x] `templates.rs` — Duzeltme sablonlari (vercel.json, next.config.js, headers)
+  - [x] `scoring.rs` — Sertlestirme skoru hesapla (once/sonra karsilastirma)
+- [x] Frontend'de "Sertlestirme Rehberi" sayfasi:
+  - [x] Adim adim checklist gorunumu
+  - [x] Oncesi/sonrasi yapilandirma karsilastirmasi
+  - [x] Otomatik duzeltme onerisi butonu
 
 ---
 
