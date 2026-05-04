@@ -354,58 +354,55 @@
 
 ## PHASE 5: Tauri & Rust Backend Entegrasyonu
 
-- [ ] `Cargo.toml` bagimliliklari:
-  - [ ] `tauri` (ana framework)
-  - [ ] `serde` + `serde_json` (serialization)
-  - [ ] `reqwest` (HTTP istekleri - Vercel API)
-  - [ ] `tokio` (async runtime)
-  - [ ] `dotenv` (ortam degiskenleri)
-  - [ ] `rusqlite` / `sqlx` (yerel veritabani)
-  - [ ] `log` + `env_logger` (loglama)
-  - [ ] `chrono` (tarih/saat)
-  - [ ] `thiserror` (hata yonetimi)
-  - [ ] `clap` (CLI argumanlari - opsiyonel)
-  - [ ] `rayon` (paralel islem — tarama hizlandirma)
-  - [ ] `dashmap` (concurrent hashmap — cache icin)
-  - [ ] `indicatif` (progress bar — CLI tarama ilerleme)
-- [ ] `[dev-dependencies]` test bagimliliklari:
-  - [ ] `mockito` (HTTP mock server)
-  - [ ] `wiremock` (gelismis HTTP mock)
-  - [ ] `assert_cmd` (CLI komut testi)
-  - [ ] `predicates` (test assertion yardimcilari)
-  - [ ] `tempfile` (gecici dosya/dizin testlerde)
-  - [ ] `insta` (snapshot testing)
-  - [ ] `proptest` (property-based testing)
-  - [ ] `criterion` (benchmark framework)
-  - [ ] `tokio-test` (async test yardimcilari)
-  - [ ] `fake` (sahte veri uretimi — test fixtures)
-  - [ ] `test-log` (testlerde log yakalama)
-- [ ] `tauri.conf.json` yapilandir:
-  - [ ] Uygulama adi, pencere boyutu, baslik
-  - [ ] CSP ayarlari
-  - [ ] Allowlist (fs, http, shell izinleri)
-  - [ ] Bundle ayarlari (icon, identifier)
-- [ ] Tauri komutlari (commands) olustur:
-  - [ ] `get_vercel_projects` — Vercel projelerini listele
-  - [ ] `get_vercel_deployments` — Deployment listesi
-  - [ ] `run_full_scan` — Tam guvenlik taramasi baslat
-  - [ ] `analyze_env_exposure` — Env degisken sizinti analizi
-  - [ ] `check_security_headers` — HTTP guvenlik basliklari kontrolu
-  - [ ] `scan_misconfigurations` — Yapilandirma hatasi taramasi
-  - [ ] `get_remediation` — Duzeltme onerileri getir
-  - [ ] `export_report` — Rapor disa aktarma
-- [ ] Vercel REST API client modulu — `src-tauri/src/vercel/`:
-  - [ ] `mod.rs` — modul tanimlari
-  - [ ] `client.rs` — HTTP client wrapper
-  - [ ] `types.rs` — API response tipleri (serde)
-  - [ ] `projects.rs` — Proje endpoint'leri
-  - [ ] `deployments.rs` — Deployment endpoint'leri
-  - [ ] `domains.rs` — Domain endpoint'leri
-  - [ ] `env_vars.rs` — Ortam degiskenleri endpoint'leri
-- [ ] Rate limiting ve retry mekanizmasi
-- [ ] API hata yonetimi (401, 403, 429 vb.)
-- [ ] Response caching (`dashmap` ile in-memory cache)
-- [ ] Paralel tarama (`rayon` ile birden fazla analyzer ayni anda calistir)
+- [x] `Cargo.toml` bagimliliklari:
+  - [x] `tauri` (ana framework)
+  - [x] `serde` + `serde_json` (serialization)
+  - [x] `reqwest` (HTTP istekleri - Vercel API)
+  - [x] `tokio` (async runtime)
+  - [x] `dotenv` (ortam degiskenleri — dotenvy kullanildi)
+  - [ ] `rusqlite` / `sqlx` (yerel veritabani — Phase 7'de)
+  - [x] `log` + `env_logger` (loglama)
+  - [x] `chrono` (tarih/saat)
+  - [x] `thiserror` (hata yonetimi)
+  - [x] `rayon` (paralel islem — tarama hizlandirma)
+  - [x] `dashmap` (concurrent hashmap — cache icin)
+- [x] `[dev-dependencies]` test bagimliliklari:
+  - [x] `mockito` (HTTP mock server)
+  - [x] `wiremock` (gelismis HTTP mock)
+  - [x] `assert_cmd` (CLI komut testi)
+  - [x] `predicates` (test assertion yardimcilari)
+  - [x] `tempfile` (gecici dosya/dizin testlerde)
+  - [x] `insta` (snapshot testing)
+  - [x] `proptest` (property-based testing)
+  - [x] `criterion` (benchmark framework)
+  - [x] `tokio-test` (async test yardimcilari)
+  - [x] `fake` (sahte veri uretimi — test fixtures)
+  - [x] `test-log` (testlerde log yakalama)
+- [x] `tauri.conf.json` yapilandir:
+  - [x] Uygulama adi, pencere boyutu, baslik
+  - [x] CSP ayarlari
+  - [x] Bundle ayarlari (icon, identifier)
+- [x] Tauri komutlari (commands) olustur:
+  - [x] `get_vercel_projects` — Vercel projelerini listele
+  - [x] `get_vercel_deployments` — Deployment listesi
+  - [x] `run_full_scan` — Tam guvenlik taramasi baslat
+  - [x] `analyze_env_exposure` — Env degisken sizinti analizi
+  - [x] `check_security_headers` — HTTP guvenlik basliklari kontrolu
+  - [x] `scan_misconfigurations` — Yapilandirma hatasi taramasi
+  - [x] `get_remediation` — Duzeltme onerileri getir
+  - [x] `export_report` — Rapor disa aktarma
+- [x] Vercel REST API client modulu — `src-tauri/src/vercel/`:
+  - [x] `mod.rs` — modul tanimlari
+  - [x] `client.rs` — HTTP client wrapper
+  - [x] `types.rs` — API response tipleri (serde)
+  - [x] `projects.rs` — Proje endpoint'leri
+  - [x] `deployments.rs` — Deployment endpoint'leri
+  - [x] `domains.rs` — Domain endpoint'leri
+  - [x] `env_vars.rs` — Ortam degiskenleri endpoint'leri
+- [x] Rate limiting ve retry mekanizmasi
+- [x] API hata yonetimi (401, 403, 429 vb.)
+- [x] Response caching (`dashmap` ile in-memory cache)
+- [x] Paralel tarama (`rayon` ile birden fazla analyzer ayni anda calistir)
 
 ---
 
