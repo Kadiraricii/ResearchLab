@@ -408,31 +408,31 @@
 
 ## PHASE 6: Frontend (Bun + Web UI)
 
-- [ ] `package.json` duzenle:
-  - [ ] `scripts`: dev, build, preview, tauri, test, test:e2e, test:unit, coverage
-  - [ ] Frontend bagimliliklari ekle
-  - [ ] Test bagimliliklari ekle
-- [ ] `bun.lockb` olustur (`bun install` ile)
-- [ ] Dashboard (Ana Sayfa):
-  - [ ] Proje listesi paneli
-  - [ ] Deployment durumu paneli
-  - [ ] Genel guvenlik skoru gostergesi
-  - [ ] Son tarama sonuclari ozeti
-- [ ] Teknik Ozet sayfasi (Phase 1 verileri)
-- [ ] Saldiri Vektorleri sayfasi (Phase 2 verileri):
-  - [ ] Risk matrisi
-  - [ ] Vektor detay gorunumu
-- [ ] Sertlestirme Rehberi sayfasi (Phase 3 verileri):
-  - [ ] Adim adim checklist
-  - [ ] Yapilandirma karsilastirmasi
-- [ ] Tarama Sonuclari sayfasi:
-  - [ ] Bulgu tablosu (kritik/yuksek/orta/dusuk filtreleme)
-  - [ ] Detay modal
-- [ ] Rapor sayfasi:
-  - [ ] Rapor goruntuleme
-  - [ ] JSON/HTML disa aktarma
-- [ ] Ayarlar sayfasi (API token girisi, tema)
-- [ ] Tauri invoke cagrilari frontend'e bagla
+- [x] `package.json` duzenle:
+  - [x] `scripts`: dev, build, preview, tauri, test, test:e2e, test:unit, coverage
+  - [x] Frontend bagimliliklari ekle
+  - [x] Test bagimliliklari ekle
+- [x] `bun.lockb` olustur (`bun install` ile)
+- [x] Dashboard (Ana Sayfa):
+  - [x] Proje listesi paneli
+  - [x] Deployment durumu paneli
+  - [x] Genel guvenlik skoru gostergesi
+  - [x] Son tarama sonuclari ozeti
+- [x] Teknik Ozet sayfasi (Phase 1 verileri)
+- [x] Saldiri Vektorleri sayfasi (Phase 2 verileri):
+  - [x] Risk matrisi
+  - [x] Vektor detay gorunumu
+- [x] Sertlestirme Rehberi sayfasi (Phase 3 verileri):
+  - [x] Adim adim checklist
+  - [x] Yapilandirma karsilastirmasi
+- [x] Tarama Sonuclari sayfasi:
+  - [x] Bulgu tablosu (kritik/yuksek/orta/dusuk filtreleme)
+  - [x] Detay modal (expand/collapse per card)
+- [x] Rapor sayfasi:
+  - [x] Rapor goruntuleme
+  - [x] JSON/HTML disa aktarma
+- [x] Ayarlar sayfasi (API token girisi, tema)
+- [x] Tauri invoke cagrilari frontend'e bagla
 
 ---
 
