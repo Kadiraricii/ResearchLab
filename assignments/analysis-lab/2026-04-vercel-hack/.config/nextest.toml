@@ -1,0 +1,23 @@
+[profile.default]
+test-threads = "num-cpus"
+retries = 0
+fail-fast = false
+
+[profile.ci]
+retries = 2
+fail-fast = false
+junit = { path = "junit.xml" }
+
+[profile.e2e]
+test-threads = 1
+retries = 1
+slow-timeout = { period = "60s", terminate-after = 2 }
+
+[test-groups]
+unit = { max-threads = "num-cpus" }
+integration = { max-threads = 4 }
+e2e = { max-threads = 1 }
+
+[[profile.default.overrides]]
+filter = "test(e2e)"
+profile = "e2e"

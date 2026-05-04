@@ -453,28 +453,28 @@
 ## PHASE 8: Test Ortami & Test Araclari
 
 ### 8.1 Test Altyapisi Kurulumu
-- [ ] `tests/` dizin yapisi olustur (unit, integration, e2e, fixtures, mocks, snapshots)
-- [ ] Test yapilandirma dosyalari:
-  - [ ] `.cargo/config.toml` — test profili ayarlari, nextest yapilandirmasi
-  - [ ] `nextest.toml` — cargo-nextest yapilandirma:
-    - [ ] Test thread sayisi (paralel calistirma)
-    - [ ] Timeout suresi (test basi)
-    - [ ] Retry politikasi (flaky test handling)
-    - [ ] Test gruplari (unit/integration/e2e ayri profiller)
-    - [ ] JUnit XML cikti (CI icin)
-  - [ ] `.config/nextest.toml` — profil tanimlari:
-    - [ ] `default` profil: hizli, sadece unit
-    - [ ] `ci` profil: tum testler, retry 2, JUnit output
-    - [ ] `e2e` profil: yalniz e2e, timeout uzun
-- [ ] Test ortami degiskenleri (`.env.test`):
-  - [ ] Mock Vercel API URL
-  - [ ] Test veritabani (in-memory SQLite)
-  - [ ] Debug log seviyesi
-- [ ] Test helper crate olustur (`tests/common/mod.rs`):
-  - [ ] Test veritabani factory (her test icin temiz DB)
-  - [ ] Mock Vercel API server baslat/durdur
-  - [ ] Fixture loader (test verisi yukleme)
-  - [ ] Assertion yardimcilari (ozel matcher'lar)
+- [x] `tests/` dizin yapisi olustur (unit, integration, e2e, fixtures, mocks, snapshots)
+- [x] Test yapilandirma dosyalari:
+  - [x] `.cargo/config.toml` — test profili ayarlari, nextest yapilandirmasi
+  - [x] `nextest.toml` — cargo-nextest yapilandirma:
+    - [x] Test thread sayisi (paralel calistirma)
+    - [x] Timeout suresi (test basi)
+    - [x] Retry politikasi (flaky test handling)
+    - [x] Test gruplari (unit/integration/e2e ayri profiller)
+    - [x] JUnit XML cikti (CI icin)
+  - [x] `.config/nextest.toml` — profil tanimlari:
+    - [x] `default` profil: hizli, sadece unit
+    - [x] `ci` profil: tum testler, retry 2, JUnit output
+    - [x] `e2e` profil: yalniz e2e, timeout uzun
+- [x] Test ortami degiskenleri (`.env.test`):
+  - [x] Mock Vercel API URL
+  - [x] Test veritabani (in-memory SQLite)
+  - [x] Debug log seviyesi
+- [x] Test helper crate olustur (`tests/common/mod.rs`):
+  - [x] Test veritabani factory (her test icin temiz DB)
+  - [x] Mock Vercel API server baslat/durdur
+  - [x] Fixture loader (test verisi yukleme)
+  - [x] Assertion yardimcilari (ozel matcher'lar)
 
 ### 8.2 Rust Unit Testleri
 - [ ] Vercel API client testleri:
