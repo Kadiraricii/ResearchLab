@@ -1,16 +1,11 @@
 [package]
 name = "tauri-app"
 version = "0.1.0"
-description = "A Tauri App"
+description = "Vercel Security Analyzer"
 authors = ["you"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "tauri_app_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
@@ -20,6 +15,45 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
+
+# Serialization
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
+# HTTP client — reqwest 0.13 already in Cargo.lock (pulled by Tauri)
+reqwest = { version = "0.13", features = ["json"] }
+
+# Async runtime — tokio 1.x already in Cargo.lock
+tokio = { version = "1", features = ["full"] }
+
+# Error handling
+thiserror = "1"
+
+# Concurrency — parallel cache and analysis
+dashmap = "6"
+rayon = "1"
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# Time — timestamp handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Environment variables (dotenvy is the maintained fork of dotenv)
+dotenvy = "0.15"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+mockito = "1"
+tempfile = "3"
+wiremock = "0.6"
+assert_cmd = "2"
+predicates = "3"
+insta = "1"
+proptest = "1"
+criterion = { version = "0.5", features = ["html_reports"] }
+tokio-test = "0.4"
+fake = { version = "2", features = ["derive"] }
+test-log = "0.2"
 
