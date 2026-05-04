@@ -1,0 +1,41 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"  # Every Monday at 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update-deps:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Update Cargo dependencies
+        run: cargo update
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Update Bun dependencies
+        run: bun update
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): weekly dependency update"
+          title: "chore(deps): weekly dependency update"
+          body: "Automated weekly dependency update via workflow."
+          branch: "chore/dep-update"
+          delete-branch: true

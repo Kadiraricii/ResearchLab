@@ -7,78 +7,24 @@ pub fn analyze(vercel_json: &str) -> Vec<Vulnerability> {
         return vulns;
     }
 
-    let Ok(val) = serde_json::from_str::<serde_json::Value>(vercel_json) else {
-        return vulns;
-    };
+    let lower = vercel_json.to_lowercase();
 
-    // Check 1: github.silent: true suppresses PR deployment comments, reducing review visibility
-    if val
-        .get("github")
-        .and_then(|g| g.get("silent"))
-        .and_then(|s| s.as_bool())
-        .unwrap_or(false)
-    {
+    // Check for preview deployments without authentication
+    // Heuristic: if "preview" context is mentioned without auth settings
+    if lower.contains("preview") && !lower.contains("authentication") && !lower.contains("password") {
         vulns.push(Vulnerability {
-            id: "PREV_01".to_string(),
-            title: "GitHub Deployment Yorumları Devre Dışı".to_string(),
+            id: "PRV_01".to_string(),
+            title: "Korumasız Preview Deployment".to_string(),
             description:
-                "github.silent: true ayarı PR'larda deployment durum yorumlarını gizler. \
-                 Güvenlik incelemeleri ve deployment durumu takibi atlanabilir."
-                    .to_string(),
-            risk_level: RiskLevel::Low,
-            affected_component: "vercel.json GitHub Integration".to_string(),
-            remediation:
-                "github.silent ayarını kaldırın ya da false olarak ayarlayın. \
-                 Deployment yorumları, güvenlik incelemesi için kritik görünürlük sağlar."
-                    .to_string(),
-        });
-    }
-
-    // Check 2: github.enabled: false disables integration and all automated deployment checks
-    if val
-        .get("github")
-        .and_then(|g| g.get("enabled"))
-        .and_then(|e| e.as_bool())
-        == Some(false)
-    {
-        vulns.push(Vulnerability {
-            id: "PREV_02".to_string(),
-            title: "GitHub Entegrasyonu Devre Dışı".to_string(),
-            description:
-                "github.enabled: false ayarı GitHub entegrasyonunu ve otomatik \
-                 deployment kontrollerini devre dışı bırakır. Güvenli olmayan kodun \
-                 inceleme olmadan deploy edilmesi riski oluşur."
+                "Preview deployment yapılandırmasında kimlik doğrulama (authentication) \
+                 veya şifre koruması tanımlanmamış. Bu durum yetkisiz kişilerin \
+                 geliştirme ortamına erişmesine olanak tanır."
                     .to_string(),
             risk_level: RiskLevel::Medium,
-            affected_component: "vercel.json GitHub Integration".to_string(),
+            affected_component: "Preview Deployments".to_string(),
             remediation:
-                "github.enabled: false ayarını kaldırın. GitHub entegrasyonu, \
-                 deployment'ları PR ve review süreciyle ilişkilendirir."
-                    .to_string(),
-        });
-    }
-
-    // Check 3: public: true makes deployment accessible to everyone without auth
-    // (legacy field — still accepted by Vercel for older projects)
-    if val
-        .get("public")
-        .and_then(|p| p.as_bool())
-        .unwrap_or(false)
-    {
-        vulns.push(Vulnerability {
-            id: "PREV_03".to_string(),
-            title: "Deployment Herkese Açık Olarak İşaretlenmiş".to_string(),
-            description:
-                "public: true ayarı deployment'ı kimlik doğrulama gerektirmeksizin \
-                 herkese açık hale getirir. Preview ortamlarındaki hassas veriler \
-                 dışarıya sızabilir."
-                    .to_string(),
-            risk_level: RiskLevel::High,
-            affected_component: "vercel.json".to_string(),
-            remediation:
-                "public: true ayarını kaldırın. Vercel Dashboard > Settings > \
-                 Deployment Protection bölümünden Password Protection veya \
-                 Vercel Authentication etkinleştirin."
+                "Vercel Dashboard'dan projeniz için 'Vercel Authentication' veya \
+                 'Password Protection' özelliğini etkinleştirin."
                     .to_string(),
         });
     }
@@ -91,37 +37,34 @@ mod tests {
     use super::*;
 
     #[test]
-    fn flags_github_silent() {
-        let json = r#"{"github":{"silent":true}}"#;
-        assert!(analyze(json).iter().any(|v| v.id == "PREV_01"));
+    fn detects_unprotected_preview() {
+        let json = r#"{"github":{"enabled":true,"silent":true,"autoAlias":true},"preview":{"enabled":true}}"#;
+        let vulns = analyze(json);
+        assert!(vulns.iter().any(|v| v.id == "PRV_01"), "should detect unprotected preview");
     }
 
     #[test]
-    fn flags_github_disabled() {
-        let json = r#"{"github":{"enabled":false}}"#;
-        assert!(analyze(json).iter().any(|v| v.id == "PREV_02"));
+    fn no_vuln_when_preview_has_auth() {
+        let json = r#"{"preview":{"authentication":{"enabled":true}}}"#;
+        let vulns = analyze(json);
+        assert_eq!(vulns.len(), 0);
     }
 
     #[test]
-    fn flags_public_deployment() {
-        let json = r#"{"public":true}"#;
-        assert!(analyze(json).iter().any(|v| v.id == "PREV_03"));
+    fn no_vuln_when_preview_has_password() {
+        let json = r#"{"preview":{"password":"mypassword"}}"#;
+        let vulns = analyze(json);
+        assert_eq!(vulns.len(), 0);
     }
 
     #[test]
-    fn no_flag_for_secure_github_config() {
-        let json = r#"{"github":{"enabled":true,"silent":false}}"#;
-        assert_eq!(analyze(json).len(), 0);
-    }
-
-    #[test]
-    fn no_flag_when_public_false() {
-        let json = r#"{"public":false}"#;
-        assert_eq!(analyze(json).len(), 0);
-    }
-
-    #[test]
-    fn handles_empty_input() {
+    fn empty_input_returns_no_vulns() {
         assert_eq!(analyze("").len(), 0);
+    }
+
+    #[test]
+    fn no_preview_key_returns_no_vuln() {
+        let json = r#"{"headers":[]}"#;
+        assert_eq!(analyze(json).len(), 0);
     }
 }

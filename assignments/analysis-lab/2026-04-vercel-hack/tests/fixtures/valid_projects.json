@@ -1,0 +1,25 @@
+{
+  "projects": [
+    {
+      "id": "prj_test001",
+      "name": "test-project-1",
+      "accountId": "team_test001",
+      "framework": "nextjs",
+      "createdAt": 1699000000000,
+      "updatedAt": 1699100000000
+    },
+    {
+      "id": "prj_test002",
+      "name": "test-project-2",
+      "accountId": "team_test001",
+      "framework": "react",
+      "createdAt": 1699200000000,
+      "updatedAt": 1699300000000
+    }
+  ],
+  "pagination": {
+    "count": 2,
+    "next": null,
+    "prev": null
+  }
+}

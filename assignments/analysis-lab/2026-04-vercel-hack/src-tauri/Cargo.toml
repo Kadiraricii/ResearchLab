@@ -6,7 +6,7 @@ authors = ["you"]
 edition = "2021"
 
 [lib]
-name = "tauri_app_lib"
+name = "vercel_hack_analysis"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -60,3 +60,7 @@ tokio-test = "0.4"
 fake = { version = "2", features = ["derive"] }
 test-log = "0.2"
 
+[[bench]]
+name = "analyzer_bench"
+harness = false
+path = "../benches/analyzer_bench.rs"

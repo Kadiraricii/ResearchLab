@@ -1,0 +1,37 @@
+# Lefthook configuration (Phase 9.5)
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: false
+  commands:
+    fmt-check:
+      root: "assignments/analysis-lab/2026-04-vercel-hack/src-tauri"
+      run: cargo fmt --check
+      fail_text: "Run 'cargo fmt' to fix formatting issues."
+    clippy:
+      root: "assignments/analysis-lab/2026-04-vercel-hack/src-tauri"
+      run: cargo clippy -- -D warnings
+      fail_text: "Fix clippy warnings before committing."
+
+pre-push:
+  parallel: false
+  commands:
+    unit-tests:
+      root: "assignments/analysis-lab/2026-04-vercel-hack/src-tauri"
+      run: cargo test --lib
+      fail_text: "Unit tests failed. Fix them before pushing."
+
+commit-msg:
+  commands:
+    conventional:
+      run: |
+        # Validate conventional commit format:
+        # type(scope): message
+        # e.g. feat(analyzer): add new CORS check
+        commit_msg=$(cat {1})
+        pattern='^(feat|fix|docs|chore|refactor|test|ci|perf|style|build|revert)(\([a-z0-9_-]+\))?: .{1,100}$'
+        if ! echo "$commit_msg" | grep -qE "$pattern"; then
+          echo "ERROR: Commit message must follow Conventional Commits format."
+          echo "  Example: feat(analyzer): add CORS wildcard check"
+          exit 1
+        fi

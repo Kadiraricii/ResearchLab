@@ -1,0 +1,27 @@
+{
+  "deployments": [
+    {
+      "uid": "dpl_test001",
+      "name": "test-project-1",
+      "url": "test-project-1-abc123.vercel.app",
+      "state": "READY",
+      "type": "LAMBDAS",
+      "createdAt": 1699000000000,
+      "buildingAt": 1699000010000,
+      "ready": 1699000120000
+    },
+    {
+      "uid": "dpl_test002",
+      "name": "test-project-1",
+      "url": "test-project-1-def456.vercel.app",
+      "state": "ERROR",
+      "type": "LAMBDAS",
+      "createdAt": 1698900000000
+    }
+  ],
+  "pagination": {
+    "count": 2,
+    "next": null,
+    "prev": null
+  }
+}

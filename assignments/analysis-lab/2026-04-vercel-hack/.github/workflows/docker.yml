@@ -1,0 +1,54 @@
+name: Docker Build & Scan
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  docker:
+    name: Docker Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: assignments/analysis-lab/2026-04-vercel-hack
+          file: assignments/analysis-lab/2026-04-vercel-hack/Dockerfile
+          push: false
+          tags: vercel-hack-analysis:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: assignments/analysis-lab/2026-04-vercel-hack
+          file: assignments/analysis-lab/2026-04-vercel-hack/Dockerfile.test
+          push: false
+          tags: vercel-hack-analysis:test-runner
+          cache-from: type=gha
+
+      - name: Run tests inside container
+        run: |
+          docker run --rm vercel-hack-analysis:test-runner
+
+      - name: Scan image for vulnerabilities (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: vercel-hack-analysis:test
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: 0
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif

@@ -1,0 +1,7 @@
+[
+  {"severity": "CRITICAL", "id": "ENV_01", "title": "Hassas Env Var İfşası", "component": "env"},
+  {"severity": "HIGH",     "id": "SRC_01", "title": "Source Map İfşası",    "component": "next.config.js"},
+  {"severity": "HIGH",     "id": "CORS_01","title": "Wildcard CORS",        "component": "vercel.json"},
+  {"severity": "MEDIUM",   "id": "PRV_01", "title": "Korumasız Preview",    "component": "preview"},
+  {"severity": "LOW",      "id": "HDR_01", "title": "Eksik HSTS",           "component": "headers"}
+]

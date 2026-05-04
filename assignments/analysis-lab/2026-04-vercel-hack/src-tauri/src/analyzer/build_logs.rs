@@ -1,16 +1,7 @@
 use super::{RiskLevel, Vulnerability};
 
-/// Lowercase patterns that indicate hardcoded secrets in build commands or env values.
-const SECRET_PATTERNS: &[&str] = &[
-    "sk-", "pk-", "token=", "secret=", "password=", "passwd=",
-    "api_key=", "apikey=", "access_key=", "auth_token=", "bearer ",
-    "private_key=", "client_secret=",
-];
-
-/// Lowercase key substrings that identify sensitive environment variable names.
-const SENSITIVE_KEY_FRAGMENTS: &[&str] = &[
-    "secret", "token", "password", "passwd", "api_key", "apikey",
-    "private_key", "access_key", "auth",
+const SENSITIVE_BUILD_KEYWORDS: &[&str] = &[
+    "SECRET", "TOKEN", "PASSWORD", "API_KEY", "PRIVATE_KEY", "AUTH",
 ];
 
 pub fn analyze(vercel_json: &str) -> Vec<Vulnerability> {
@@ -20,74 +11,28 @@ pub fn analyze(vercel_json: &str) -> Vec<Vulnerability> {
         return vulns;
     }
 
-    let Ok(val) = serde_json::from_str::<serde_json::Value>(vercel_json) else {
-        return vulns;
-    };
-
-    // Check 1: buildCommand contains secret-like patterns
-    if let Some(build_cmd) = val.get("buildCommand").and_then(|c| c.as_str()) {
-        let lower = build_cmd.to_lowercase();
-        if SECRET_PATTERNS.iter().any(|p| lower.contains(p)) {
-            vulns.push(Vulnerability {
-                id: "BLDL_01".to_string(),
-                title: "Build Komutunda Gizli Bilgi Tespiti".to_string(),
-                description: format!(
-                    "buildCommand içinde gizli bilgi içerdiği düşünülen bir pattern \
-                     tespit edildi. Build komutları log olarak saklanır ve yetkisiz \
-                     kişilerce görülebilir: '{build_cmd}'"
-                ),
-                risk_level: RiskLevel::Critical,
-                affected_component: "vercel.json buildCommand".to_string(),
-                remediation:
-                    "Gizli anahtarları asla build komutuna gömmeyın. \
-                     Vercel Dashboard > Settings > Environment Variables bölümüne \
-                     ekleyin ve komutta $SECRET_NAME şeklinde referans verin."
-                        .to_string(),
-            });
-        }
-    }
-
-    // Check 2: env section contains hardcoded secret values (not @references)
-    //
-    // In vercel.json the `env` field is meant to hold @secret-reference syntax.
-    // A plain string value (not starting with @) that has a sensitive-sounding key
-    // means the secret is committed to the repository.
-    if let Some(env_obj) = val.get("env").and_then(|e| e.as_object()) {
-        for (key, value) in env_obj {
-            let val_str = value.as_str().unwrap_or("");
-
-            // Skip empty values and proper @-references
-            if val_str.is_empty() || val_str.starts_with('@') {
-                continue;
-            }
-
-            let lower_key = key.to_lowercase();
-            let lower_val = val_str.to_lowercase();
-
-            let key_is_sensitive =
-                SENSITIVE_KEY_FRAGMENTS.iter().any(|f| lower_key.contains(f));
-            let val_looks_like_secret =
-                SECRET_PATTERNS.iter().any(|p| lower_val.starts_with(p));
-
-            if key_is_sensitive || val_looks_like_secret {
+    // Check build commands for hardcoded secrets
+    let upper = vercel_json.to_uppercase();
+    if upper.contains("\"BUILDCOMMAND\"") || upper.contains("BUILD_COMMAND") || upper.contains("INSTALLCOMMAND") {
+        for kw in SENSITIVE_BUILD_KEYWORDS {
+            if upper.contains(kw) {
                 vulns.push(Vulnerability {
-                    id: "BLDL_02".to_string(),
-                    title: "vercel.json İçinde Hardcoded Gizli Değer".to_string(),
+                    id: "BLD_01".to_string(),
+                    title: "Build Komutunda Hassas Bilgi Tespiti".to_string(),
                     description: format!(
-                        "vercel.json `env` bölümünde '{key}' değişkeni @referans \
-                         yerine doğrudan bir değer içeriyor. Bu dosya sürüm \
-                         kontrolüne dahilse gizli bilgi ifşa olur."
+                        "Build yapılandırması içinde '{}' gibi hassas bir anahtar kelime tespit edildi. \
+                         Bu bilgi build loglarına sızarak ifşa olabilir.",
+                        kw
                     ),
                     risk_level: RiskLevel::High,
-                    affected_component: "vercel.json env".to_string(),
+                    affected_component: "Build Pipeline".to_string(),
                     remediation:
-                        "Gizli değerleri vercel.json'dan kaldırın. \
-                         Vercel Dashboard > Settings > Environment Variables \
-                         bölümünü kullanın veya @secret-name referans sözdizimini \
-                         tercih edin."
+                        "Hassas verileri doğrudan build komutlarına yazmayın. \
+                         Bunun yerine Vercel Dashboard üzerinden 'Sensitive' olarak \
+                         işaretlenmiş environment variable kullanın."
                             .to_string(),
                 });
-                // One vulnerability per env section is sufficient — avoid noise
+                // Only report once per config, avoid duplicate vulns
                 break;
             }
         }
@@ -101,42 +46,37 @@ mod tests {
     use super::*;
 
     #[test]
-    fn flags_secret_in_build_command() {
-        let json = r#"{"buildCommand":"npm run build -- --token=sk-abc123"}"#;
-        assert!(analyze(json).iter().any(|v| v.id == "BLDL_01"));
+    fn detects_secret_in_build_command() {
+        // Lowercase key but uppercase content — our analyzer upper-cases the whole string
+        let json = r#"{"buildCommand":"npm run build -- --secret=my_secret_value"}"#;
+        let vulns = analyze(json);
+        assert!(vulns.iter().any(|v| v.id == "BLD_01"), "should detect secret in build cmd");
     }
 
     #[test]
-    fn no_flag_for_normal_build_command() {
+    fn no_vuln_for_clean_build_command() {
         let json = r#"{"buildCommand":"npm run build"}"#;
-        assert_eq!(analyze(json).len(), 0);
+        let vulns = analyze(json);
+        assert_eq!(vulns.len(), 0);
     }
 
     #[test]
-    fn flags_hardcoded_secret_in_env() {
-        let json = r#"{"env":{"API_SECRET_KEY":"hardcoded-plaintext-value"}}"#;
-        assert!(analyze(json).iter().any(|v| v.id == "BLDL_02"));
-    }
-
-    #[test]
-    fn no_flag_for_env_reference() {
-        let json = r#"{"env":{"API_KEY":"@my-secret-ref"}}"#;
-        assert_eq!(analyze(json).len(), 0);
-    }
-
-    #[test]
-    fn no_flag_for_non_sensitive_env_key() {
-        let json = r#"{"env":{"APP_NAME":"my-app"}}"#;
-        assert_eq!(analyze(json).len(), 0);
-    }
-
-    #[test]
-    fn handles_empty_input() {
+    fn empty_input_returns_no_vulns() {
         assert_eq!(analyze("").len(), 0);
     }
 
     #[test]
-    fn handles_invalid_json() {
-        assert_eq!(analyze("{bad json}").len(), 0);
+    fn no_build_key_returns_no_vuln() {
+        let json = r#"{"headers":[]}"#;
+        assert_eq!(analyze(json).len(), 0);
+    }
+
+    #[test]
+    fn only_one_vuln_even_if_multiple_keywords_present() {
+        // Multiple sensitive keywords in one build command should only yield 1 BLD_01
+        let json = r#"{"buildCommand":"npm run build --secret=s1 --token=t1 --password=p1"}"#;
+        let vulns = analyze(json);
+        let bld_count = vulns.iter().filter(|v| v.id == "BLD_01").count();
+        assert_eq!(bld_count, 1, "should produce at most one BLD_01 per config");
     }
 }
