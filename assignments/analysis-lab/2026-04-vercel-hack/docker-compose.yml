@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1420:1420"
+    volumes:
+      - ./configs:/app/configs
+      - ./reports:/app/reports
+    environment:
+      - RUST_LOG=info
+    networks:
+      - vercel_lab_net
+
+  scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["cargo", "run", "--manifest-path", "scripts/Cargo.toml", "--bin", "full_audit"]
+    volumes:
+      - ./configs:/app/configs
+      - ./reports:/app/reports
+    depends_on:
+      - app
+    networks:
+      - vercel_lab_net
+
+networks:
+  vercel_lab_net:
+    driver: bridge

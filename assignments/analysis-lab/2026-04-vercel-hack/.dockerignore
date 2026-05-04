@@ -1,0 +1,12 @@
+target/
+node_modules/
+.git/
+.env*
+!*.env.example
+*.md
+coverage/
+test-results/
+.DS_Store
+*.log
+src-tauri/target/
+dist/
