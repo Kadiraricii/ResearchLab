@@ -173,6 +173,13 @@ html, body, #root {
 
 .nav-item.on .nav-pip { background: var(--accent); }
 
+.nav-icon {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  flex-shrink: 0;
+}
+
 .hdr-spacer { flex: 1; }
 
 .ready-badge {
@@ -783,4 +790,288 @@ html, body, #root {
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 1px;
+}
+
+/* ─── Dashboard stat cards ───────────────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-card-num {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.stat-card-lbl {
+  font-size: var(--t-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.stat-card-sub {
+  font-size: var(--t-xs);
+  color: var(--text-subtle);
+  margin-top: 2px;
+}
+
+/* ─── Filter pills ───────────────────────────────────────────────────────── */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.filter-lbl {
+  font-size: var(--t-xs);
+  color: var(--text-subtle);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all var(--fast);
+}
+
+.filter-pill:hover { border-color: var(--border-sub); color: var(--text); }
+
+.filter-pill.active-all    { background: var(--surface-2); color: var(--text); border-color: var(--border-sub); }
+.filter-pill.active-critical { background: var(--critical-dim); color: var(--critical); border-color: oklch(60% 0.26 20 / 0.35); }
+.filter-pill.active-high     { background: var(--high-dim);     color: var(--high);     border-color: oklch(70% 0.22 52 / 0.35); }
+.filter-pill.active-medium   { background: var(--medium-dim);   color: var(--medium);   border-color: oklch(80% 0.20 88 / 0.35); }
+.filter-pill.active-low      { background: var(--low-dim);      color: var(--low);      border-color: oklch(70% 0.19 145 / 0.35); }
+
+.pill-count {
+  background: currentColor;
+  color: var(--bg);
+  border-radius: 100px;
+  padding: 0 5px;
+  font-size: 9px;
+  font-weight: 800;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ─── Vuln expand ────────────────────────────────────────────────────────── */
+.vuln-card { cursor: pointer; }
+.vuln-expand { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-sub); }
+.vuln-expand-title { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 6px; }
+.vuln-expand-body { font-size: var(--t-sm); color: var(--text-muted); line-height: 1.6; font-family: var(--mono); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; }
+
+/* ─── Checklist ──────────────────────────────────────────────────────────── */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-sub);
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: var(--sans);
+  transition: background var(--fast), border-color var(--fast);
+}
+
+.check-item:hover { background: var(--surface); }
+
+.check-item.done,
+.check-item.check-done {
+  opacity: 0.55;
+  background: var(--bg);
+}
+
+.check-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: background var(--fast), border-color var(--fast);
+  background: transparent;
+}
+
+.check-item.done .check-box,
+.check-item.check-done .check-box {
+  background: var(--low);
+  border-color: var(--low);
+  color: oklch(10% 0 0);
+}
+
+.check-text {
+  font-size: var(--t-sm);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.check-item.done .check-text,
+.check-item.check-done .check-text {
+  text-decoration: line-through;
+  color: var(--text-subtle);
+}
+
+.check-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.check-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.check-progress-fill {
+  height: 100%;
+  background: var(--low);
+  border-radius: 100px;
+  transition: width 300ms var(--ease);
+}
+
+.check-progress-label {
+  font-size: var(--t-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Settings form ──────────────────────────────────────────────────────── */
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.settings-label {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.settings-desc {
+  font-size: var(--t-xs);
+  color: var(--text-subtle);
+  margin-top: -4px;
+}
+
+.token-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  outline: none;
+  transition: border-color var(--fast);
+}
+
+.token-input:focus { border-color: var(--accent); }
+.token-input::placeholder { color: var(--text-subtle); }
+
+.token-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-size: var(--t-sm);
+  font-weight: 600;
+}
+
+.token-status.configured { background: var(--low-dim); color: var(--low); border: 1px solid oklch(70% 0.19 145 / 0.3); }
+.token-status.not-configured { background: var(--critical-dim); color: var(--critical); border: 1px solid oklch(60% 0.26 20 / 0.3); }
+
+/* ─── Report export ──────────────────────────────────────────────────────── */
+.export-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.btn-outline:not(:disabled):hover { background: var(--surface-2); color: var(--text); }
+
+/* ─── Info box ───────────────────────────────────────────────────────────── */
+.info-box {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--accent-dim);
+  border: 1px solid oklch(64% 0.20 255 / 0.25);
+  border-radius: 6px;
+  font-size: var(--t-sm);
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.info-box-icon { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+/* ─── Dashboard incident card ────────────────────────────────────────────── */
+.incident-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--critical-dim);
+  border: 1px solid oklch(60% 0.26 20 / 0.3);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--critical);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
 }

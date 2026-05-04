@@ -23,45 +23,38 @@ function HardeningScore({ score }: { score: number }) {
       <div className="hard-row">
         <span className="hard-label">Sertleştirme Skoru</span>
         <span>
-          <span className="hard-score" style={{ color }}>
-            {score.toFixed(1)}
-          </span>
-          <span style={{ fontSize: "var(--t-sm)", color: "var(--text-muted)", marginLeft: 4 }}>
-            / 10
-          </span>
-          <span
-            style={{
-              marginLeft: 10,
-              fontSize: "var(--t-sm)",
-              fontWeight: 700,
-              color,
-            }}
-          >
-            {label}
-          </span>
+          <span className="hard-score" style={{ color }}>{score.toFixed(1)}</span>
+          <span style={{ fontSize: "var(--t-sm)", color: "var(--text-muted)", marginLeft: 4 }}>/ 10</span>
+          <span style={{ marginLeft: 10, fontSize: "var(--t-sm)", fontWeight: 700, color }}>{label}</span>
         </span>
       </div>
       <div className="hard-bar-wrap">
-        <div
-          className="hard-bar-fill"
-          style={{ width: `${pct}%`, background: color }}
-        />
+        <div className="hard-bar-fill" style={{ width: `${pct}%`, background: color }} />
       </div>
     </>
   );
 }
 
-function FixIcon() {
+function ChecklistProgress({ done, total }: { done: number; total: number }) {
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  const color = pct === 100 ? "var(--low)" : pct >= 50 ? "var(--medium)" : "var(--accent)";
   return (
-    <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
-      <path
-        d="M3 8.5L6.5 12L13 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <div style={{ marginBottom: 16 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+        <span style={{ fontSize: "var(--t-xs)", fontWeight: 700, color: "var(--text-subtle)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          Checklist İlerlemesi
+        </span>
+        <span style={{ fontSize: "var(--t-sm)", fontWeight: 700, color }}>
+          {done}/{total} ({pct}%)
+        </span>
+      </div>
+      <div className="hard-bar-wrap">
+        <div
+          className="hard-bar-fill"
+          style={{ width: `${pct}%`, background: color, transition: "width 350ms var(--ease)" }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -74,12 +67,13 @@ export function RemediationGuide() {
   const [report, setReport]         = useState<RemediationReport | null>(null);
   const [loading, setLoading]       = useState(false);
   const [error, setError]           = useState<string | null>(null);
+  const [done, setDone]             = useState<Set<number>>(new Set());
 
   const handleFix = async () => {
     setLoading(true);
     setError(null);
+    setDone(new Set());
     try {
-      // Command name matches lib.rs: generate_remediation_report(vercel_json, next_config, env_content)
       const res = await invoke<RemediationReport>("generate_remediation_report", {
         vercelJson,
         nextConfig,
@@ -93,13 +87,22 @@ export function RemediationGuide() {
     }
   };
 
+  const toggleDone = (i: number) =>
+    setDone((prev) => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+
+  const total = report?.recommendations.length ?? 0;
+  const doneCount = done.size;
+
   return (
     <div className="page">
-      {/* ── Page header ── */}
       <div className="ph">
         <h1 className="ph-title">Sertleştirme Rehberi</h1>
         <p className="ph-desc">
-          Mevcut yapılandırmanızı girin; güvenli şablonlar ve öneriler üretelim.
+          Mevcut yapılandırmanızı girin; güvenli şablonlar ve interaktif checklist üretelim.
         </p>
       </div>
 
@@ -108,9 +111,7 @@ export function RemediationGuide() {
         <p className="card-label">Mevcut Yapılandırma</p>
         <div className="input-grid">
           <div className="input-group">
-            <label className="input-label">
-              <span className="file-tag">vercel.json</span>
-            </label>
+            <label className="input-label"><span className="file-tag">vercel.json</span></label>
             <textarea
               className="code-ta"
               placeholder={'{\n  "headers": []\n}'}
@@ -119,9 +120,7 @@ export function RemediationGuide() {
             />
           </div>
           <div className="input-group">
-            <label className="input-label">
-              <span className="file-tag">next.config.js</span>
-            </label>
+            <label className="input-label"><span className="file-tag">next.config.js</span></label>
             <textarea
               className="code-ta"
               placeholder={"module.exports = {}"}
@@ -130,9 +129,7 @@ export function RemediationGuide() {
             />
           </div>
           <div className="input-group">
-            <label className="input-label">
-              <span className="file-tag">.env.local</span>
-            </label>
+            <label className="input-label"><span className="file-tag">.env.local</span></label>
             <textarea
               className="code-ta"
               placeholder={"NEXT_PUBLIC_API_KEY=..."}
@@ -142,17 +139,18 @@ export function RemediationGuide() {
           </div>
         </div>
 
-        <button
-          className="btn btn-green"
-          onClick={handleFix}
-          disabled={loading}
-        >
-          {loading ? <span className="spin" style={{ borderTopColor: "transparent" }} /> : <FixIcon />}
+        <button className="btn btn-green" onClick={handleFix} disabled={loading}>
+          {loading ? (
+            <span className="spin" />
+          ) : (
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8.5L6.5 12L13 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
           {loading ? "Üretiliyor…" : "Güvenli Yapılandırma Üret"}
         </button>
       </div>
 
-      {/* ── Error ── */}
       {error && <div className="err-bar">{error}</div>}
 
       {/* ── Report ── */}
@@ -165,18 +163,47 @@ export function RemediationGuide() {
             <HardeningScore score={report.hardening_score} />
           </div>
 
-          {/* Recommendations */}
+          {/* Interactive checklist */}
           {report.recommendations.length > 0 && (
             <div className="card" style={{ marginBottom: 12 }}>
-              <p className="card-label">Önerilen Aksiyonlar</p>
-              <ul className="rec-list">
-                {report.recommendations.map((rec, i) => (
-                  <li key={i} className="rec-item">
-                    <span className="rec-arrow">→</span>
-                    {rec}
-                  </li>
-                ))}
-              </ul>
+              <p className="card-label">Aksiyonlar — İnteraktif Checklist</p>
+              <ChecklistProgress done={doneCount} total={total} />
+              <div className="checklist">
+                {report.recommendations.map((rec, i) => {
+                  const isDone = done.has(i);
+                  return (
+                    <button
+                      key={i}
+                      className={`check-item ${isDone ? "check-done" : ""}`}
+                      onClick={() => toggleDone(i)}
+                      type="button"
+                    >
+                      <span className="check-box">
+                        {isDone && (
+                          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className="check-text">{rec}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              {doneCount === total && total > 0 && (
+                <div style={{
+                  marginTop: 14,
+                  padding: "10px 14px",
+                  background: "var(--low-dim)",
+                  border: "1px solid oklch(70% 0.19 145 / 0.25)",
+                  borderRadius: 5,
+                  fontSize: "var(--t-sm)",
+                  color: "var(--low)",
+                  fontWeight: 700,
+                }}>
+                  ✓ Tüm aksiyonlar tamamlandı. Yapılandırmanız sertleştirildi.
+                </div>
+              )}
             </div>
           )}
 
