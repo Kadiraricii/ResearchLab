@@ -1,0 +1,31 @@
+[package]
+name = "vercel-hack-scripts"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde_json = "1.0"
+
+[[bin]]
+name = "scan_env"
+path = "src/bin/scan_env.rs"
+
+[[bin]]
+name = "check_headers"
+path = "src/bin/check_headers.rs"
+
+[[bin]]
+name = "dns_check"
+path = "src/bin/dns_check.rs"
+
+[[bin]]
+name = "source_map_check"
+path = "src/bin/source_map_check.rs"
+
+[[bin]]
+name = "full_audit"
+path = "src/bin/full_audit.rs"
+
+[[bin]]
+name = "export_report"
+path = "src/bin/export_report.rs"
