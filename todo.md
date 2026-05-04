@@ -477,296 +477,296 @@
   - [x] Assertion yardimcilari (ozel matcher'lar)
 
 ### 8.2 Rust Unit Testleri
-- [ ] Vercel API client testleri:
-  - [ ] `client.rs` — HTTP baglanti, auth header, base URL testi
-  - [ ] `projects.rs` — proje listesi parse testi
-  - [ ] `deployments.rs` — deployment listesi parse testi
-  - [ ] `env_vars.rs` — env var listesi parse testi
-  - [ ] Hata senaryolari: 401, 403, 404, 429, 500 response
-  - [ ] Rate limit retry davranisi testi
-  - [ ] Timeout davranisi testi
-- [ ] Analyzer modul testleri (her vektor icin):
-  - [ ] `env_exposure` — NEXT_PUBLIC_ sizma tespiti testi
-  - [ ] `source_maps` — .map dosya erisim testi
-  - [ ] `headers` — eksik/yanlis baslik tespiti testi
-  - [ ] `cors` — wildcard origin tespiti testi
-  - [ ] `redirects` — open redirect tespiti testi
-  - [ ] `rewrites` — path traversal tespiti testi
-  - [ ] `dns` — dangling CNAME tespiti testi
-  - [ ] `ssl` — sertifika dogrulama testi
-  - [ ] `serverless` — injection zafiyet tespiti testi
-  - [ ] `middleware` — bypass senaryosu tespiti testi
-  - [ ] `preview_auth` — yetkisiz erisim tespiti testi
-  - [ ] `build_logs` — hassas bilgi tespiti testi
-- [ ] Remediation modul testleri:
-  - [ ] `recommendations.rs` — dogru oneri uretimi testi
-  - [ ] `templates.rs` — sablon cikti dogrulama testi
-  - [ ] `scoring.rs` — skor hesaplama testi
-- [ ] Summary modul testleri:
-  - [ ] `vercel_config.rs` — vercel.json parse testi (gecerli/gecersiz)
-  - [ ] `next_config.rs` — next.config.js analiz testi
-  - [ ] `platform_defaults.rs` — varsayilan degerlerin dogrulugu
-- [ ] Veritabani CRUD testleri:
-  - [ ] Scan CRUD (olustur, oku, guncelle, sil)
-  - [ ] Finding CRUD
-  - [ ] Report CRUD
-  - [ ] Migration testi (sema yukariya/asagiya)
+- [x] Vercel API client testleri:
+  - [x] `client.rs` — HTTP baglanti, auth header, base URL testi
+  - [x] `projects.rs` — proje listesi parse testi
+  - [x] `deployments.rs` — deployment listesi parse testi
+  - [x] `env_vars.rs` — env var listesi parse testi
+  - [x] Hata senaryolari: 401, 403, 404, 429, 500 response
+  - [x] Rate limit retry davranisi testi
+  - [x] Timeout davranisi testi
+- [x] Analyzer modul testleri (her vektor icin):
+  - [x] `env_exposure` — NEXT_PUBLIC_ sizma tespiti testi
+  - [x] `source_maps` — .map dosya erisim testi
+  - [x] `headers` — eksik/yanlis baslik tespiti testi
+  - [x] `cors` — wildcard origin tespiti testi
+  - [x] `redirects` — open redirect tespiti testi
+  - [x] `rewrites` — path traversal tespiti testi
+  - [x] `dns` — dangling CNAME tespiti testi
+  - [x] `ssl` — sertifika dogrulama testi
+  - [x] `serverless` — injection zafiyet tespiti testi
+  - [x] `middleware` — bypass senaryosu tespiti testi
+  - [x] `preview_auth` — yetkisiz erisim tespiti testi
+  - [x] `build_logs` — hassas bilgi tespiti testi
+- [x] Remediation modul testleri:
+  - [x] `recommendations.rs` — dogru oneri uretimi testi
+  - [x] `templates.rs` — sablon cikti dogrulama testi
+  - [x] `scoring.rs` — skor hesaplama testi
+- [x] Summary modul testleri:
+  - [x] `vercel_config.rs` — vercel.json parse testi (gecerli/gecersiz)
+  - [x] `next_config.rs` — next.config.js analiz testi
+  - [x] `platform_defaults.rs` — varsayilan degerlerin dogrulugu
+- [x] Veritabani CRUD testleri:
+  - [x] Scan CRUD (olustur, oku, guncelle, sil)
+  - [x] Finding CRUD
+  - [x] Report CRUD
+  - [x] Migration testi (sema yukariya/asagiya)
 
 ### 8.3 Snapshot Testleri (insta crate)
-- [ ] Analyzer ciktilarini snapshot olarak kaydet:
-  - [ ] Her analyzer icin "temiz yapilandirma" snapshot
-  - [ ] Her analyzer icin "zafiyetli yapilandirma" snapshot
-- [ ] Rapor ciktisi snapshot testi:
-  - [ ] JSON rapor formati snapshot
-  - [ ] HTML rapor formati snapshot
-- [ ] Vercel config parser snapshot:
-  - [ ] Ornek vercel.json parse sonucu snapshot
-  - [ ] Ornek next.config.js parse sonucu snapshot
-- [ ] Snapshot guncelleme komutu: `cargo insta review`
+- [x] Analyzer ciktilarini snapshot olarak kaydet:
+  - [x] Her analyzer icin "temiz yapilandirma" snapshot
+  - [x] Her analyzer icin "zafiyetli yapilandirma" snapshot
+- [x] Rapor ciktisi snapshot testi:
+  - [x] JSON rapor formati snapshot
+  - [x] HTML rapor formati snapshot
+- [x] Vercel config parser snapshot:
+  - [x] Ornek vercel.json parse sonucu snapshot
+  - [x] Ornek next.config.js parse sonucu snapshot
+- [x] Snapshot guncelleme komutu: `cargo insta review`
 
 ### 8.4 Property-Based Testler (proptest)
-- [ ] Vercel config parser fuzzing:
-  - [ ] Rastgele vercel.json olustur, parser crash etmemeli
-  - [ ] Rastgele header degerleri, header analyzer crash etmemeli
-  - [ ] Rastgele URL redirect pattern'leri, redirect analyzer crash etmemeli
-- [ ] Risk skorlama:
-  - [ ] Rastgele bulgu kombinasyonlari, skor her zaman 0-100 arasi olmali
-  - [ ] Bos bulgu listesi, skor 100 (temiz) olmali
-- [ ] Env exposure:
-  - [ ] Rastgele env degisken isimleri, NEXT_PUBLIC_ prefix dogru tespit edilmeli
+- [x] Vercel config parser fuzzing:
+  - [x] Rastgele vercel.json olustur, parser crash etmemeli
+  - [x] Rastgele header degerleri, header analyzer crash etmemeli
+  - [x] Rastgele URL redirect pattern'leri, redirect analyzer crash etmemeli
+- [x] Risk skorlama:
+  - [x] Rastgele bulgu kombinasyonlari, skor her zaman 0-100 arasi olmali
+  - [x] Bos bulgu listesi, skor 100 (temiz) olmali
+- [x] Env exposure:
+  - [x] Rastgele env degisken isimleri, NEXT_PUBLIC_ prefix dogru tespit edilmeli
 
 ### 8.5 Rust Entegrasyon Testleri (`tests/integration/`)
-- [ ] Tam tarama pipeline testi:
-  - [ ] Mock Vercel API baslat → tum analyzer'lari calistir → rapor uret → dogrula
-- [ ] Veritabani entegrasyonu:
-  - [ ] Tarama yap → sonuclari DB'ye kaydet → DB'den oku → dogrula
-- [ ] API client + Analyzer entegrasyonu:
-  - [ ] API'dan veri cek → analyzer'dan gecir → sonuc dogrula
-- [ ] Rapor export entegrasyonu:
-  - [ ] Tarama sonuclari → JSON dosyaya yaz → dosyayi oku → dogrula
-  - [ ] Tarama sonuclari → HTML dosyaya yaz → HTML valid mi kontrol et
-- [ ] CLI entegrasyon testi (`assert_cmd`):
-  - [ ] `full_audit` komutu dogru cikti uretiyor mu
-  - [ ] Hatali token ile dogru hata mesaji veriyor mu
-  - [ ] `--help` flag'i cikti dogrulama
+- [x] Tam tarama pipeline testi:
+  - [x] Mock Vercel API baslat → tum analyzer'lari calistir → rapor uret → dogrula
+- [x] Veritabani entegrasyonu:
+  - [x] Tarama yap → sonuclari DB'ye kaydet → DB'den oku → dogrula
+- [x] API client + Analyzer entegrasyonu:
+  - [x] API'dan veri cek → analyzer'dan gecir → sonuc dogrula
+- [x] Rapor export entegrasyonu:
+  - [x] Tarama sonuclari → JSON dosyaya yaz → dosyayi oku → dogrula
+  - [x] Tarama sonuclari → HTML dosyaya yaz → HTML valid mi kontrol et
+- [x] CLI entegrasyon testi (`assert_cmd`):
+  - [x] `full_audit` komutu dogru cikti uretiyor mu
+  - [x] Hatali token ile dogru hata mesaji veriyor mu
+  - [x] `--help` flag'i cikti dogrulama
 
 ### 8.6 Frontend Unit Testleri
-- [ ] Test framework kur:
-  - [ ] `bun:test` (Bun native test runner) yapilandir
-  - [ ] `@testing-library/dom` ekle
-  - [ ] `@testing-library/user-event` ekle
-  - [ ] `happy-dom` / `jsdom` ekle (DOM simulasyonu)
-- [ ] Component testleri:
-  - [ ] Dashboard component testi
-  - [ ] Risk matrisi component testi
-  - [ ] Tarama sonuclari tablosu testi
-  - [ ] Ayarlar formu testi
-  - [ ] Rapor goruntuleme testi
-- [ ] Tauri invoke mock:
-  - [ ] `@tauri-apps/api/core` mock'u olustur
-  - [ ] Her komut icin mock response tanimla
-  - [ ] Hata senaryolari (Tauri backend erisim yok)
-- [ ] State management testleri:
-  - [ ] Store/state guncellenme testi
-  - [ ] API cagri sonucu state'e yansima testi
+- [x] Test framework kur:
+  - [x] `bun:test` (Bun native test runner) yapilandir
+  - [x] `@testing-library/dom` ekle
+  - [x] `@testing-library/user-event` ekle
+  - [x] `happy-dom` / `jsdom` ekle (DOM simulasyonu)
+- [x] Component testleri:
+  - [x] Dashboard component testi
+  - [x] Risk matrisi component testi
+  - [x] Tarama sonuclari tablosu testi
+  - [x] Ayarlar formu testi
+  - [x] Rapor goruntuleme testi
+- [x] Tauri invoke mock:
+  - [x] `@tauri-apps/api/core` mock'u olustur
+  - [x] Her komut icin mock response tanimla
+  - [x] Hata senaryolari (Tauri backend erisim yok)
+- [x] State management testleri:
+  - [x] Store/state guncellenme testi
+  - [x] API cagri sonucu state'e yansima testi
 
 ### 8.7 E2E (End-to-End) Testleri
-- [ ] E2E framework kur:
-  - [ ] Playwright kur (`bun add -D @playwright/test`)
-  - [ ] `playwright.config.ts` olustur:
-    - [ ] Tauri webview URL (localhost:1420)
-    - [ ] Screenshot on failure
-    - [ ] Video recording (basarisiz testler)
-    - [ ] Trace recording
-    - [ ] Timeout: 30 saniye
-    - [ ] Retries: 1 (CI'da 2)
-  - [ ] WebDriver / Tauri driver kurulumu (native pencere testi icin)
-- [ ] E2E test senaryolari:
-  - [ ] **Uygulama acilis testi**:
-    - [ ] Uygulama aciliyor mu
-    - [ ] Dashboard yukleniyor mu
-    - [ ] Ilk yukleme suresi < 3 saniye
-  - [ ] **API Token giris akisi**:
-    - [ ] Ayarlar sayfasina git
-    - [ ] Token gir ve kaydet
-    - [ ] Gecersiz token hata mesaji goster
-    - [ ] Token sonrasi proje listesi yukleniyor mu
-  - [ ] **Tam tarama akisi (golden path)**:
-    - [ ] Proje sec
-    - [ ] "Tarama Baslat" butonuna tikla
-    - [ ] Ilerleme gostergesi gorunuyor mu
-    - [ ] Tarama tamamlandi bildirimi
-    - [ ] Sonuclar sayfasinda bulgular listelenyor mu
-    - [ ] Risk seviyeleri dogru renkte gorunuyor mu
-  - [ ] **Bulgu filtreleme**:
-    - [ ] Kritik filtresi
-    - [ ] Yuksek filtresi
-    - [ ] Orta filtresi
-    - [ ] Dusuk filtresi
-    - [ ] Tum filtreler acik/kapali
-  - [ ] **Sertlestirme rehberi akisi**:
-    - [ ] Bulguya tikla → duzeltme onerisi gorunuyor mu
-    - [ ] Adim adim checklist isletilebiliyor mu
-    - [ ] Yapilandirma karsilastirmasi dogru gorunuyor mu
-  - [ ] **Rapor disa aktarma akisi**:
-    - [ ] JSON export butonu → dosya indiriliyor mu
-    - [ ] HTML export butonu → dosya indiriliyor mu
-    - [ ] Export edilen dosya icerigi dogru mu
-  - [ ] **Hata senaryolari**:
-    - [ ] API erisim yok (network hatasi) → hata mesaji
-    - [ ] Token suresi dolmus (401) → yeniden giris yonlendirme
-    - [ ] Bos proje listesi → "proje bulunamadi" mesaji
-  - [ ] **Responsive UI testi**:
-    - [ ] 1920x1080 gorunumu
-    - [ ] 1366x768 gorunumu
-    - [ ] 1024x768 gorunumu
-- [ ] E2E test verileri:
-  - [ ] Mock Vercel API server olustur (MSW — Mock Service Worker):
-    - [ ] `/v9/projects` endpoint mock
-    - [ ] `/v13/deployments` endpoint mock
-    - [ ] `/v9/projects/:id/env` endpoint mock
-    - [ ] Hata response mock'lari (401, 403, 429, 500)
-  - [ ] Fixture dosyalari (`tests/fixtures/`):
-    - [ ] `valid_projects.json` — ornek proje listesi
-    - [ ] `valid_deployments.json` — ornek deployment listesi
-    - [ ] `vulnerable_vercel.json` — zafiyetli yapilandirma
-    - [ ] `secure_vercel.json` — guvenli yapilandirma
-    - [ ] `mixed_findings.json` — karisik bulgu seti
+- [x] E2E framework kur:
+  - [x] Playwright kur (`bun add -D @playwright/test`)
+  - [x] `playwright.config.ts` olustur:
+    - [x] Tauri webview URL (localhost:1420)
+    - [x] Screenshot on failure
+    - [x] Video recording (basarisiz testler)
+    - [x] Trace recording
+    - [x] Timeout: 30 saniye
+    - [x] Retries: 1 (CI'da 2)
+  - [x] WebDriver / Tauri driver kurulumu (native pencere testi icin)
+- [x] E2E test senaryolari:
+  - [x] **Uygulama acilis testi**:
+    - [x] Uygulama aciliyor mu
+    - [x] Dashboard yukleniyor mu
+    - [x] Ilk yukleme suresi < 3 saniye
+  - [x] **API Token giris akisi**:
+    - [x] Ayarlar sayfasina git
+    - [x] Token gir ve kaydet
+    - [x] Gecersiz token hata mesaji goster
+    - [x] Token sonrasi proje listesi yukleniyor mu
+  - [x] **Tam tarama akisi (golden path)**:
+    - [x] Proje sec
+    - [x] "Tarama Baslat" butonuna tikla
+    - [x] Ilerleme gostergesi gorunuyor mu
+    - [x] Tarama tamamlandi bildirimi
+    - [x] Sonuclar sayfasinda bulgular listelenyor mu
+    - [x] Risk seviyeleri dogru renkte gorunuyor mu
+  - [x] **Bulgu filtreleme**:
+    - [x] Kritik filtresi
+    - [x] Yuksek filtresi
+    - [x] Orta filtresi
+    - [x] Dusuk filtresi
+    - [x] Tum filtreler acik/kapali
+  - [x] **Sertlestirme rehberi akisi**:
+    - [x] Bulguya tikla → duzeltme onerisi gorunuyor mu
+    - [x] Adim adim checklist isletilebiliyor mu
+    - [x] Yapilandirma karsilastirmasi dogru gorunuyor mu
+  - [x] **Rapor disa aktarma akisi**:
+    - [x] JSON export butonu → dosya indiriliyor mu
+    - [x] HTML export butonu → dosya indiriliyor mu
+    - [x] Export edilen dosya icerigi dogru mu
+  - [x] **Hata senaryolari**:
+    - [x] API erisim yok (network hatasi) → hata mesaji
+    - [x] Token suresi dolmus (401) → yeniden giris yonlendirme
+    - [x] Bos proje listesi → "proje bulunamadi" mesaji
+  - [x] **Responsive UI testi**:
+    - [x] 1920x1080 gorunumu
+    - [x] 1366x768 gorunumu
+    - [x] 1024x768 gorunumu
+- [x] E2E test verileri:
+  - [x] Mock Vercel API server olustur (MSW — Mock Service Worker):
+    - [x] `/v9/projects` endpoint mock
+    - [x] `/v13/deployments` endpoint mock
+    - [x] `/v9/projects/:id/env` endpoint mock
+    - [x] Hata response mock'lari (401, 403, 429, 500)
+  - [x] Fixture dosyalari (`tests/fixtures/`):
+    - [x] `valid_projects.json` — ornek proje listesi
+    - [x] `valid_deployments.json` — ornek deployment listesi
+    - [x] `vulnerable_vercel.json` — zafiyetli yapilandirma
+    - [x] `secure_vercel.json` — guvenli yapilandirma
+    - [x] `mixed_findings.json` — karisik bulgu seti
 
 ### 8.8 Benchmark Testleri (criterion)
-- [ ] `benches/` dizini olustur:
-  - [ ] `analyzer_bench.rs` — her analyzer'in tarama suresi
-  - [ ] `parser_bench.rs` — vercel.json / next.config.js parse suresi
-  - [ ] `report_bench.rs` — rapor olusturma suresi
-  - [ ] `db_bench.rs` — veritabani okuma/yazma suresi
-  - [ ] `full_scan_bench.rs` — tam audit suresi (tum analyzer'lar)
-- [ ] Benchmark baseline olustur (ilk olcum)
-- [ ] Benchmark CI'da calistir, regression tespit et
+- [x] `benches/` dizini olustur:
+  - [x] `analyzer_bench.rs` — her analyzer'in tarama suresi
+  - [x] `parser_bench.rs` — vercel.json / next.config.js parse suresi
+  - [x] `report_bench.rs` — rapor olusturma suresi
+  - [x] `db_bench.rs` — veritabani okuma/yazma suresi
+  - [x] `full_scan_bench.rs` — tam audit suresi (tum analyzer'lar)
+- [x] Benchmark baseline olustur (ilk olcum)
+- [x] Benchmark CI'da calistir, regression tespit et
 
 ### 8.9 Kod Coverage
-- [ ] `cargo-llvm-cov` yapilandir:
-  - [ ] `cargo llvm-cov --html` — HTML coverage raporu
-  - [ ] `cargo llvm-cov --lcov --output-path lcov.info` — lcov formati
-  - [ ] Coverage threshold belirle: minimum %70 satir, %60 branch
-- [ ] Frontend coverage:
-  - [ ] `bun test --coverage` yapilandir
-  - [ ] Coverage threshold: minimum %60
-- [ ] Coverage raporunu CI'da olustur ve artifact olarak sakla
-- [ ] Codecov / Coveralls entegrasyonu (opsiyonel)
+- [x] `cargo-llvm-cov` yapilandir:
+  - [x] `cargo llvm-cov --html` — HTML coverage raporu
+  - [x] `cargo llvm-cov --lcov --output-path lcov.info` — lcov formati
+  - [x] Coverage threshold belirle: minimum %70 satir, %60 branch
+- [x] Frontend coverage:
+  - [x] `bun test --coverage` yapilandir
+  - [x] Coverage threshold: minimum %60
+- [x] Coverage raporunu CI'da olustur ve artifact olarak sakla
+- [x] Codecov / Coveralls entegrasyonu (opsiyonel)
 
 ### 8.10 Test Araclari & Yardimcilar
-- [ ] Mock Vercel API server (`tests/mocks/vercel_mock_server.rs`):
-  - [ ] `wiremock` ile tam mock API
-  - [ ] Tum endpoint'ler icin response tanimlari
-  - [ ] Dinamik response (istek parametresine gore)
-  - [ ] Rate limit simulasyonu
-  - [ ] Gecikme simulasyonu (yavas API testi)
-- [ ] Test fixture generator (`tests/fixtures/generator.rs`):
-  - [ ] Rastgele vercel.json uret
-  - [ ] Rastgele next.config.js uret
-  - [ ] Rastgele env degisken seti uret
-  - [ ] Belirli zafiyet profili ile fixture uret
-- [ ] Test reporter:
-  - [ ] JUnit XML cikti (CI entegrasyonu)
-  - [ ] HTML test raporu (yerel gelistirme)
-  - [ ] Terminal ozet raporu (cargo-nextest)
+- [x] Mock Vercel API server (`tests/mocks/vercel_mock_server.rs`):
+  - [x] `wiremock` ile tam mock API
+  - [x] Tum endpoint'ler icin response tanimlari
+  - [x] Dinamik response (istek parametresine gore)
+  - [x] Rate limit simulasyonu
+  - [x] Gecikme simulasyonu (yavas API testi)
+- [x] Test fixture generator (`tests/fixtures/generator.rs`):
+  - [x] Rastgele vercel.json uret
+  - [x] Rastgele next.config.js uret
+  - [x] Rastgele env degisken seti uret
+  - [x] Belirli zafiyet profili ile fixture uret
+- [x] Test reporter:
+  - [x] JUnit XML cikti (CI entegrasyonu)
+  - [x] HTML test raporu (yerel gelistirme)
+  - [x] Terminal ozet raporu (cargo-nextest)
 
 ---
 
 ## PHASE 9: CI/CD Pipeline
 
 ### 9.1 GitHub Actions — Ana CI Pipeline
-- [ ] `.github/workflows/ci.yml` olustur:
-  - [ ] **Trigger**: push (main, develop), pull_request
-  - [ ] **Cache**:
-    - [ ] Rust target/ dizini cache (`actions/cache`)
-    - [ ] `~/.cargo/registry` cache
-    - [ ] `sccache` cache
-    - [ ] `node_modules/` cache (Bun)
-    - [ ] Docker layer cache
-  - [ ] **Job: lint**
-    - [ ] `cargo fmt --check` — formatlama kontrolu
-    - [ ] `cargo clippy -- -D warnings` — lint (uyarilar hata sayilsin)
-    - [ ] `cargo deny check` — lisans ve zafiyet kontrolu
-    - [ ] `cargo machete` — kullanilmayan bagimlilik kontrolu
-    - [ ] Frontend lint (eslint, prettier)
-  - [ ] **Job: test-unit**
-    - [ ] `cargo nextest run --profile ci -E 'kind(lib) | kind(bin)'` — unit testler
-    - [ ] JUnit XML cikti → test summary
-    - [ ] Coverage raporu olustur
-  - [ ] **Job: test-integration**
-    - [ ] `cargo nextest run --profile ci -E 'kind(test)'` — entegrasyon testleri
-    - [ ] Mock API server ile calistir
-    - [ ] JUnit XML cikti
-  - [ ] **Job: test-frontend**
-    - [ ] `bun test` — frontend unit testler
-    - [ ] Coverage raporu
-  - [ ] **Job: test-e2e**
-    - [ ] Docker compose ile test ortami kur
-    - [ ] `bun run test:e2e` — Playwright E2E testler
-    - [ ] Basarisiz test screenshot/video → artifact
-    - [ ] Playwright raporu → artifact
-  - [ ] **Job: build**
-    - [ ] `cargo build --release` — Rust release build
-    - [ ] `bun run build` — frontend build
-    - [ ] `cargo tauri build` — Tauri bundle (depends on: lint, test-unit)
-    - [ ] Build artifact'lerini yukle
-  - [ ] **Job: security-audit**
-    - [ ] `cargo audit` — bilinen Rust zafiyet kontrolu
-    - [ ] `bun audit` — npm zafiyet kontrolu (varsa)
-    - [ ] SAST tarama (semgrep veya cargo-geiger)
-  - [ ] **Job: benchmark** (sadece main branch'e merge'de)
-    - [ ] `cargo bench` calistir
-    - [ ] Benchmark sonuclarini onceki ile karsilastir
-    - [ ] Regression varsa uyar
+- [x] `.github/workflows/ci.yml` olustur:
+  - [x] **Trigger**: push (main, develop), pull_request
+  - [x] **Cache**:
+    - [x] Rust target/ dizini cache (`actions/cache`)
+    - [x] `~/.cargo/registry` cache
+    - [x] `sccache` cache
+    - [x] `node_modules/` cache (Bun)
+    - [x] Docker layer cache
+  - [x] **Job: lint**
+    - [x] `cargo fmt --check` — formatlama kontrolu
+    - [x] `cargo clippy -- -D warnings` — lint (uyarilar hata sayilsin)
+    - [x] `cargo deny check` — lisans ve zafiyet kontrolu
+    - [x] `cargo machete` — kullanilmayan bagimlilik kontrolu
+    - [x] Frontend lint (eslint, prettier)
+  - [x] **Job: test-unit**
+    - [x] `cargo nextest run --profile ci -E 'kind(lib) | kind(bin)'` — unit testler
+    - [x] JUnit XML cikti → test summary
+    - [x] Coverage raporu olustur
+  - [x] **Job: test-integration**
+    - [x] `cargo nextest run --profile ci -E 'kind(test)'` — entegrasyon testleri
+    - [x] Mock API server ile calistir
+    - [x] JUnit XML cikti
+  - [x] **Job: test-frontend**
+    - [x] `bun test` — frontend unit testler
+    - [x] Coverage raporu
+  - [x] **Job: test-e2e**
+    - [x] Docker compose ile test ortami kur
+    - [x] `bun run test:e2e` — Playwright E2E testler
+    - [x] Basarisiz test screenshot/video → artifact
+    - [x] Playwright raporu → artifact
+  - [x] **Job: build**
+    - [x] `cargo build --release` — Rust release build
+    - [x] `bun run build` — frontend build
+    - [x] `cargo tauri build` — Tauri bundle (depends on: lint, test-unit)
+    - [x] Build artifact'lerini yukle
+  - [x] **Job: security-audit**
+    - [x] `cargo audit` — bilinen Rust zafiyet kontrolu
+    - [x] `bun audit` — npm zafiyet kontrolu (varsa)
+    - [x] SAST tarama (semgrep veya cargo-geiger)
+  - [x] **Job: benchmark** (sadece main branch'e merge'de)
+    - [x] `cargo bench` calistir
+    - [x] Benchmark sonuclarini onceki ile karsilastir
+    - [x] Regression varsa uyar
 
 ### 9.2 GitHub Actions — Release Pipeline
-- [ ] `.github/workflows/release.yml` olustur:
-  - [ ] **Trigger**: tag push (`v*`)
-  - [ ] **Matrix build**:
-    - [ ] Windows (x86_64-pc-windows-msvc)
-    - [ ] Linux (x86_64-unknown-linux-gnu)
-    - [ ] macOS Intel (x86_64-apple-darwin)
-    - [ ] macOS ARM (aarch64-apple-darwin)
-  - [ ] Her platform icin Tauri bundle olustur
-  - [ ] GitHub Release olustur ve artifact'leri ekle
-  - [ ] Changelog otomatik olustur (git-cliff veya conventional-changelog)
+- [x] `.github/workflows/release.yml` olustur:
+  - [x] **Trigger**: tag push (`v*`)
+  - [x] **Matrix build**:
+    - [x] Windows (x86_64-pc-windows-msvc)
+    - [x] Linux (x86_64-unknown-linux-gnu)
+    - [x] macOS Intel (x86_64-apple-darwin)
+    - [x] macOS ARM (aarch64-apple-darwin)
+  - [x] Her platform icin Tauri bundle olustur
+  - [x] GitHub Release olustur ve artifact'leri ekle
+  - [x] Changelog otomatik olustur (git-cliff veya conventional-changelog)
 
 ### 9.3 GitHub Actions — Dependency Update
-- [ ] `.github/workflows/deps.yml` (haftalik):
-  - [ ] `cargo update` calistir
-  - [ ] `bun update` calistir
-  - [ ] Degisiklik varsa PR ac
-  - [ ] CI testlerini otomatik calistir
+- [x] `.github/workflows/deps.yml` (haftalik):
+  - [x] `cargo update` calistir
+  - [x] `bun update` calistir
+  - [x] Degisiklik varsa PR ac
+  - [x] CI testlerini otomatik calistir
 
 ### 9.4 GitHub Actions — Docker
-- [ ] `.github/workflows/docker.yml`:
-  - [ ] Docker image build
-  - [ ] Docker image test (container icinde test calistir)
-  - [ ] Docker image push (ghcr.io veya Docker Hub)
-  - [ ] Image guvenlik taramasi (trivy)
+- [x] `.github/workflows/docker.yml`:
+  - [x] Docker image build
+  - [x] Docker image test (container icinde test calistir)
+  - [x] Docker image push (ghcr.io veya Docker Hub)
+  - [x] Image guvenlik taramasi (trivy)
 
 ### 9.5 Pre-commit & Git Hooks
-- [ ] `lefthook.yml` veya `.husky/` yapilandir:
-  - [ ] `pre-commit`:
-    - [ ] `cargo fmt --check`
-    - [ ] `cargo clippy -- -D warnings`
-    - [ ] Frontend lint
-  - [ ] `pre-push`:
-    - [ ] `cargo nextest run --profile default`
-    - [ ] `bun test`
-  - [ ] `commit-msg`:
-    - [ ] Conventional commit format kontrolu
+- [x] `lefthook.yml` veya `.husky/` yapilandir:
+  - [x] `pre-commit`:
+    - [x] `cargo fmt --check`
+    - [x] `cargo clippy -- -D warnings`
+    - [x] Frontend lint
+  - [x] `pre-push`:
+    - [x] `cargo nextest run --profile default`
+    - [x] `bun test`
+  - [x] `commit-msg`:
+    - [x] Conventional commit format kontrolu
 
 ### 9.6 CI Performans Optimizasyonlari
-- [ ] Rust incremental compilation CI'da aktif et
-- [ ] `sccache` CI'da yapilandir (S3/GCS backend)
-- [ ] Parallel job sayisini optimize et
-- [ ] Test splitting (buyuk test suite'leri paralel job'lara bol)
-- [ ] Gereksiz job'lari atla (path-based filtering):
-  - [ ] Sadece `src-tauri/` degistiyse Rust testlerini calistir
-  - [ ] Sadece `src/` degistiyse frontend testlerini calistir
-  - [ ] Sadece `docs/` degistiyse hicbir test calistirma
+- [x] Rust incremental compilation CI'da aktif et
+- [x] `sccache` CI'da yapilandir (S3/GCS backend)
+- [x] Parallel job sayisini optimize et
+- [x] Test splitting (buyuk test suite'leri paralel job'lara bol)
+- [x] Gereksiz job'lari atla (path-based filtering):
+  - [x] Sadece `src-tauri/` degistiyse Rust testlerini calistir
+  - [x] Sadece `src/` degistiyse frontend testlerini calistir
+  - [x] Sadece `docs/` degistiyse hicbir test calistirma
 
 ---
 
