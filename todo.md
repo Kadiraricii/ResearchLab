@@ -438,15 +438,15 @@
 
 ## PHASE 7: Veritabani & Yerel Depolama
 
-- [ ] SQLite veritabani semasi olustur:
-  - [ ] `scans` tablosu (tarama gecmisi)
-  - [ ] `findings` tablosu (bulgular — vektor, risk, aciklama)
-  - [ ] `projects` tablosu (takip edilen projeler)
-  - [ ] `reports` tablosu (olusturulan raporlar)
-  - [ ] `remediations` tablosu (uygulanan duzeltmeler)
-- [ ] Migration sistemi kur
-- [ ] CRUD operasyonlari yaz
-- [ ] Veritabani dosyasi Tauri app data dizininde sakla
+- [x] SQLite veritabani semasi olustur:
+  - [x] `scans` tablosu (tarama gecmisi)
+  - [x] `findings` tablosu (bulgular — vektor, risk, aciklama)
+  - [x] `projects` tablosu (takip edilen projeler)
+  - [x] `reports` tablosu (olusturulan raporlar)
+  - [x] `remediations` tablosu (uygulanan duzeltmeler)
+- [x] Migration sistemi kur
+- [x] CRUD operasyonlari yaz
+- [x] Veritabani dosyasi Tauri app data dizininde sakla
 
 ---
 

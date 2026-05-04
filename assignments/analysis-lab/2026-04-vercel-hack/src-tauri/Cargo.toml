@@ -43,6 +43,9 @@ chrono = { version = "0.4", features = ["serde"] }
 # Environment variables (dotenvy is the maintained fork of dotenv)
 dotenvy = "0.15"
 
+# Local database — rusqlite with bundled SQLite (no system lib required)
+rusqlite = { version = "0.32", features = ["bundled"] }
+
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }
 mockito = "1"

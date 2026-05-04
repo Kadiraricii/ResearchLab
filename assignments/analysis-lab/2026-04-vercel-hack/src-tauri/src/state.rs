@@ -1,34 +1,33 @@
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
-use crate::{error::{AppError, Result}, vercel::VercelClient};
+use crate::{
+    db::Database,
+    error::{AppError, Result},
+    vercel::VercelClient,
+};
 
 /// Shared application state managed by Tauri.
 ///
 /// Design rationale:
-/// - `Arc<RwLock<Option<Arc<VercelClient>>>>` provides:
-///   - Multiple concurrent readers (active scans checking client existence)
-///   - Single exclusive writer (set_vercel_token replacing the client)
-///   - None state before any token is configured
-///   - Inner Arc<VercelClient> so commands can clone the client out of the lock
-///     and hold it beyond the RwLock guard's lifetime
-///
-/// - We use `tokio::sync::RwLock` (NOT `std::sync::RwLock`) because Tauri commands
-///   are async functions; holding a std MutexGuard across an `.await` point
-///   would fail to compile (the guard is not Send).
+/// - `Arc<RwLock<Option<Arc<VercelClient>>>>` gives concurrent reads (multiple
+///   scans checking the token) and exclusive writes (set_vercel_token).
+/// - `Database` is wrapped in `Mutex` (via its own internal field) and in an
+///   `Arc` so commands can cheaply clone the reference without cloning the DB.
 pub struct AppState {
     client: Arc<RwLock<Option<Arc<VercelClient>>>>,
+    pub db: Arc<Database>,
 }
 
 impl AppState {
-    pub fn new() -> Self {
+    pub fn new(db: Database) -> Self {
         Self {
             client: Arc::new(RwLock::new(None)),
+            db: Arc::new(db),
         }
     }
 
     /// Replace the current Vercel client with a new one using the given token.
-    /// The old client (and its cache) is dropped when this function returns.
     pub async fn set_token(&self, token: String) -> Result<()> {
         let new_client = VercelClient::new(token)?;
         let mut guard = self.client.write().await;
@@ -45,11 +44,5 @@ impl AppState {
     /// Check whether a token has been set without returning the client.
     pub async fn is_configured(&self) -> bool {
         self.client.read().await.is_some()
-    }
-}
-
-impl Default for AppState {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -27,6 +27,9 @@ pub enum AppError {
 
     #[error("Timeout waiting for API response")]
     Timeout,
+
+    #[error("Database error: {0}")]
+    Db(#[from] rusqlite::Error),
 }
 
 // Tauri requires errors in commands to be Serialize.
@@ -57,6 +60,7 @@ impl AppError {
             AppError::Analysis(_) => "Analysis",
             AppError::Io(_) => "Io",
             AppError::Timeout => "Timeout",
+            AppError::Db(_) => "Db",
         }
     }
 }
