@@ -309,46 +309,46 @@
 ## PHASE 4: Scriptler, Konfigurasyonlar & Komutlar
 > _tasks.md Instruction 4: "Include any relevant scripts, configurations, or commands used."_
 
-- [ ] `configs/` dizinine ornek yapilandirma dosyalari:
-  - [ ] `vercel.json` — guvenli ornek (headers, redirects, rewrites)
-  - [ ] `next.config.js` — sertlestirilmis ornek
-  - [ ] `middleware.ts` — guvenli edge middleware ornegi
-  - [ ] `headers.json` — onerilen guvenlik basliklari seti
-  - [ ] `nginx.conf` — Vercel onunde reverse proxy (varsa) guvenli yapilandirma
-  - [ ] `.vercelignore` — hassas dosyalari haric tut
-- [ ] `scripts/` dizinine otomasyon scriptleri (Rust CLI / shell):
-  - [ ] `scan_env.rs` — Env degiskeni sizintisi tarama scripti
-  - [ ] `check_headers.rs` — HTTP baslik kontrolu scripti
-  - [ ] `dns_check.rs` — DNS takeover kontrolu scripti
-  - [ ] `source_map_check.rs` — Source map ifsa kontrolu
-  - [ ] `full_audit.rs` — Tum kontrolleri calistiran tam audit
-- [ ] `docker-compose.yml` olustur:
-  - [ ] `app` servisi (Tauri uygulamasi / headless scanner)
-  - [ ] `scanner` servisi (arka plan tarama)
-  - [ ] Volume mount'lar (config, data, reports)
-  - [ ] Network yapilandirmasi
-- [ ] `Dockerfile` olustur:
-  - [ ] Multi-stage build (Rust derleme + runtime)
-  - [ ] Bun ile frontend build
-  - [ ] Minimal runtime image
-  - [ ] `sccache` mount ile derleme hizi artir
-  - [ ] Layer caching optimize et (bagimlilik layer ayri, kod layer ayri)
-- [ ] `Dockerfile.test` olustur (test ortami icin):
-  - [ ] Tum test araclari dahil
-  - [ ] Mock Vercel API server dahil
-  - [ ] Coverage araclari dahil
-- [ ] `.dockerignore` olustur:
-  - [ ] `target/`
-  - [ ] `node_modules/`
-  - [ ] `.git/`
-  - [ ] `.env`
-  - [ ] `*.md`
-  - [ ] `coverage/`
-  - [ ] `test-results/`
-- [ ] Rapor disari aktarma:
-  - [ ] JSON cikti formati
-  - [ ] HTML rapor sablonu
-  - [ ] PDF rapor (opsiyonel)
+- [x] `configs/` dizinine ornek yapilandirma dosyalari:
+  - [x] `vercel.json` — guvenli ornek (headers, redirects, rewrites)
+  - [x] `next.config.js` — sertlestirilmis ornek
+  - [x] `middleware.ts` — guvenli edge middleware ornegi
+  - [x] `headers.json` — onerilen guvenlik basliklari seti
+  - [x] `nginx.conf` — Vercel onunde reverse proxy (varsa) guvenli yapilandirma
+  - [x] `.vercelignore` — hassas dosyalari haric tut
+- [x] `scripts/` dizinine otomasyon scriptleri (Rust CLI / shell):
+  - [x] `scan_env.rs` — Env degiskeni sizintisi tarama scripti
+  - [x] `check_headers.rs` — HTTP baslik kontrolu scripti
+  - [x] `dns_check.rs` — DNS takeover kontrolu scripti
+  - [x] `source_map_check.rs` — Source map ifsa kontrolu
+  - [x] `full_audit.rs` — Tum kontrolleri calistiran tam audit
+- [x] `docker-compose.yml` olustur:
+  - [x] `app` servisi (Tauri uygulamasi / headless scanner)
+  - [x] `scanner` servisi (arka plan tarama)
+  - [x] Volume mount'lar (config, data, reports)
+  - [x] Network yapilandirmasi
+- [x] `Dockerfile` olustur:
+  - [x] Multi-stage build (Rust derleme + runtime)
+  - [x] Bun ile frontend build
+  - [x] Minimal runtime image
+  - [x] `sccache` mount ile derleme hizi artir
+  - [x] Layer caching optimize et (bagimlilik layer ayri, kod layer ayri)
+- [x] `Dockerfile.test` olustur (test ortami icin):
+  - [x] Tum test araclari dahil
+  - [x] Mock Vercel API server dahil
+  - [x] Coverage araclari dahil
+- [x] `.dockerignore` olustur:
+  - [x] `target/`
+  - [x] `node_modules/`
+  - [x] `.git/`
+  - [x] `.env`
+  - [x] `*.md`
+  - [x] `coverage/`
+  - [x] `test-results/`
+- [x] Rapor disari aktarma:
+  - [x] JSON cikti formati
+  - [x] HTML rapor sablonu
+  - [x] PDF rapor (opsiyonel)
 
 ---
 
