@@ -1,0 +1,15 @@
+# .vercelignore
+# Bu dosya Vercel deployment'ina hangi dosyalarin dahil edilmeyecegini belirler.
+
+.env*
+!*.env.example
+node_modules
+docker-compose.yml
+Dockerfile*
+scripts/
+configs/
+tests/
+certs/
+*.key
+*.pem
+*.log
