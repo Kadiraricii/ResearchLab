@@ -1,4 +1,4 @@
-use crate::analyzer::{AnalysisReport, RiskLevel};
+use crate::analyzer::AnalysisReport;
 
 pub fn get_recommendations(report: &AnalysisReport) -> Vec<String> {
     let mut recs = Vec::new();

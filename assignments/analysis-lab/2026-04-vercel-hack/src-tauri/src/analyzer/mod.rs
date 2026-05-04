@@ -48,13 +48,12 @@ pub fn run_all_analyzers(vercel_json: &str, next_config: &str, env_content: &str
     vulns.extend(source_maps::analyze(next_config));
     vulns.extend(redirects::analyze(vercel_json));
     vulns.extend(rewrites::analyze(vercel_json));
-    // Diger stub moduller cagriliyor
-    vulns.extend(dns::analyze());
-    vulns.extend(ssl::analyze());
-    vulns.extend(serverless::analyze());
-    vulns.extend(middleware::analyze());
-    vulns.extend(preview_auth::analyze());
-    vulns.extend(build_logs::analyze());
+    vulns.extend(dns::analyze(vercel_json));
+    vulns.extend(ssl::analyze(vercel_json));
+    vulns.extend(serverless::analyze(vercel_json));
+    vulns.extend(middleware::analyze(vercel_json));
+    vulns.extend(preview_auth::analyze(vercel_json));
+    vulns.extend(build_logs::analyze(vercel_json));
     
     let score = scoring::calculate_cvss_like_score(&vulns);
     
