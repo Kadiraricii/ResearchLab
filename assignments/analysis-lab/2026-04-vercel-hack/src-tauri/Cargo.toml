@@ -64,3 +64,8 @@ test-log = "0.2"
 name = "analyzer_bench"
 harness = false
 path = "../benches/analyzer_bench.rs"
+
+[[bench]]
+name = "db_bench"
+harness = false
+path = "../benches/db_bench.rs"

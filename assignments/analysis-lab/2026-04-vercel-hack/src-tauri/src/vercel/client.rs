@@ -42,7 +42,14 @@ impl VercelClient {
     pub fn new(token: String) -> Result<Self> {
         let http = Client::builder()
             .timeout(Duration::from_secs(30))
+            .connect_timeout(Duration::from_secs(10))
             .user_agent("vercel-security-analyzer/0.1")
+            // Keep-alive: reuse TCP connections across requests to api.vercel.com
+            .tcp_keepalive(Duration::from_secs(60))
+            // Connection pool: hold up to MAX_CONCURRENT_REQUESTS idle connections
+            .pool_max_idle_per_host(MAX_CONCURRENT_REQUESTS)
+            // Use HTTP/2 when the server supports it (Vercel API does)
+            .http2_prior_knowledge()
             .build()
             .map_err(AppError::Http)?;
 

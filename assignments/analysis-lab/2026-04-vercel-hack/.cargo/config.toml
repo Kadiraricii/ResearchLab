@@ -1,25 +1,69 @@
+# ─── Cargo Configuration ──────────────────────────────────────────────────────
+# Phase 10: Build & test performance optimizations
+
 [alias]
 xtask = "run --package xtask --"
 
+# ─── Build settings ───────────────────────────────────────────────────────────
 [build]
-# Uncomment to use sccache globally if installed
+# Use all available logical CPU cores for parallel compilation
+jobs = 10
+
+# sccache — persistent compilation cache; dramatically speeds up clean builds.
+# sccache is installed at /opt/homebrew/bin/sccache — activate via env var:
+# RUSTC_WRAPPER=sccache cargo build
+# Or uncomment the line below to apply globally:
 # rustc-wrapper = "sccache"
 
+# ─── Platform linker overrides ────────────────────────────────────────────────
 [target.x86_64-unknown-linux-gnu]
-# Uncomment to use mold linker on Linux
+# mold: fastest linker on Linux. Install: apt install mold
 # rustflags = ["-C", "link-arg=-fuse-ld=mold"]
 
 [target.x86_64-apple-darwin]
+# lld is faster than Apple's default ld on Intel Mac
 rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 
 [target.aarch64-apple-darwin]
+# lld on Apple Silicon
 rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 
+[target.x86_64-pc-windows-msvc]
+# lld is the standard fast linker on Windows MSVC
+# rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+# ─── Dev profile: fast iteration ──────────────────────────────────────────────
+[profile.dev]
+opt-level = 0          # No optimization — fastest compile
+debug = 2              # Full debug info
+incremental = true     # Reuse previous compilation artifacts
+
+# Optimize dependencies even in debug mode.
+# Our code stays at opt-level=0 for fast recompile; heavy crates (serde, tokio,
+# rayon, rusqlite) run at full speed so runtime is not painfully slow.
+[profile.dev.package."*"]
+opt-level = 2
+
+# ─── Test profile: balance compile speed with runtime performance ──────────────
 [profile.test]
-opt-level = 0
+opt-level = 1          # Light optimization keeps test suite fast at runtime
 debug = 2
 incremental = true
 
+# ─── Release profile: maximum optimization for shipped binary ─────────────────
+[profile.release]
+opt-level = 3
+lto = "thin"           # Thin LTO: ~15-25% smaller binary, fast enough for CI
+codegen-units = 1      # Single CGU → better cross-crate optimization
+strip = true           # Strip debug symbols from final binary (~50% size reduction)
+panic = "abort"        # Smaller binary, no unwinding cost
+
+# ─── Bench profile: mirrors release for accurate measurements ─────────────────
+[profile.bench]
+opt-level = 3
+debug = 1              # Keep enough info for flamegraph / perf profiling
+
+# ─── Environment defaults ─────────────────────────────────────────────────────
 [env]
-RUST_BACKTRACE = "1"
+RUST_BACKTRACE      = "1"
 CARGO_WORKSPACE_DIR = { value = "", relative = true }
