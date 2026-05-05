@@ -842,29 +842,24 @@
 
 ## PHASE 12: Dokumantasyon (tasks.md Arastirma Ciktilari)
 
-- [ ] `README.md` olustur:
-  - [ ] Proje aciklamasi
-  - [ ] Kurulum adimlari
-  - [ ] Kullanim kilavuzu
-  - [ ] Ekran goruntuleri
-  - [ ] Test calistirma komutlari
-  - [ ] CI/CD badge'leri (build, test, coverage)
-- [ ] `CONTRIBUTING.md` olustur:
-  - [ ] Gelistirme ortami kurulumu
-  - [ ] Test yazma rehberi
-  - [ ] Commit mesaj formati
-  - [ ] PR sureci
-- [ ] `docs/technical-summary.md` — Phase 1 teknik ozet raporu
-- [ ] `docs/attack-vectors.md` — Phase 2 saldiri vektorleri analizi
-- [ ] `docs/hardening-guide.md` — Phase 3 sertlestirme rehberi
-- [ ] `docs/scripts-and-configs.md` — Phase 4 script/konfigurasyon dokumantasyonu
-- [ ] `docs/testing.md` — Test stratejisi ve nasil test yazilir
-- [ ] `docs/ci-cd.md` — CI/CD pipeline dokumantasyonu
-- [ ] `tasks.md` icerisindeki "Your Research Here" bolumunu doldur:
-  - [ ] Teknik ozet sonuclarini yaz
-  - [ ] Saldiri vektorleri ve riskleri listele
-  - [ ] Adim adim sertlestirme rehberini ekle
-  - [ ] Kullanilan tum script, config ve komutlari ekle
+- [x] `README.md` olustur:
+  - [x] Proje aciklamasi (12 analyzer, Tauri + Rust + React)
+  - [x] Kurulum adimlari (pre-built + source)
+  - [x] Kullanim kilavuzu (token, scanner, reports)
+  - [x] Test calistirma komutlari
+  - [x] CI/CD badge'leri (CI + Release)
+- [x] `CONTRIBUTING.md` olustur:
+  - [x] Gelistirme ortami kurulumu
+  - [x] Test yazma rehberi (unit, integration, proptest)
+  - [x] Commit mesaj formati
+  - [x] PR sureci
+- [x] `docs/technical-summary.md` — April 2026 Vercel Hack teknik ozet (context-ai supply chain)
+- [x] `docs/attack-vectors.md` — 12 saldiri vektoru, risk matrisi, analyzer ID eslesmesi
+- [x] `docs/hardening-guide.md` — adim adim sertlestirme (headers, env vars, CORS, CSP, HSTS)
+- [x] `docs/scripts-and-configs.md` — tum CLI komutlari, config dosyalari, Docker, env referansi
+- [x] `docs/testing.md` — test stratejisi, fixture sistemi, coverage, benchmark
+- [x] `docs/ci-cd.md` — 8 CI job akisi, release pipeline, secret'lar, release adimlari
+- [x] `task.md` zaten dolu (teknik ozet, saldiri vektorleri, hardening, komutlar)
 
 ---
 
