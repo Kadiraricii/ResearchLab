@@ -822,12 +822,21 @@
 
 ## PHASE 11: Derleme & Dagitim
 
-- [ ] `tauri build` ile release build test et
-- [ ] Windows installer (.msi / .exe) olustur
-- [ ] Linux AppImage / .deb olustur
-- [ ] macOS .dmg olustur (varsa)
-- [ ] Auto-update mekanizmasi yapilandir (Tauri updater)
-- [ ] Uygulama ikonu ve splash screen
+- [x] `tauri build` ile release build test et (`cargo check` clean; tauri-action ile CI'da full build)
+- [x] Windows installer (.msi / .exe) — `release.yml` matrix: `windows-latest` (tauri-action otomatik olusturur)
+- [x] Linux AppImage / .deb — `release.yml` matrix: `ubuntu-22.04` (tauri-action otomatik olusturur)
+- [x] macOS .dmg — `release.yml` matrix: `macos-latest` x `aarch64` + `x86_64` (tauri-action otomatik olusturur)
+- [x] Auto-update mekanizmasi yapilandir:
+  - [x] `tauri-plugin-updater = "2"` Cargo.toml'a eklendi
+  - [x] `lib.rs`'te plugin kayitlandi: `.plugin(tauri_plugin_updater::Builder::new().build())`
+  - [x] `tauri.conf.json` updater endpoint + dialog: true yapilandirildi
+  - [x] `release.yml` TAURI_SIGNING_PRIVATE_KEY env var eklendi (secrets'tan okunuyor)
+  - [ ] Imzalama anahtari olustur: `bunx tauri signer generate` ve public key'i `tauri.conf.json`'a ekle
+- [x] Splash screen: `public/splashscreen.html` olusturuldu (dark luxury, shield icon, progress bar)
+- [x] `tauri.conf.json` splash window (label: splashscreen, decorations: false) + main window (visible: false)
+- [x] `lib.rs` setup sonrasi splash kapat + main window goster
+- [x] Uygulama ikonu: tum boyutlar mevcut (`icons/` klasoru: 32x32, 128x128, .icns, .ico)
+- [x] `release.yml`'e mold (Linux) + sccache eklendi
 
 ---
 

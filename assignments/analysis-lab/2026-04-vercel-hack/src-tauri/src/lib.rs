@@ -123,6 +123,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             // Resolve the per-app data directory and open (or create) the DB there.
             // Falls back to in-memory if the path cannot be determined.
@@ -141,6 +142,17 @@ pub fn run() {
                 }
             };
             app.manage(AppState::new(db));
+
+            // Close splashscreen and reveal main window.
+            // Uses if-let so a missing window (e.g., in tests) is a no-op.
+            let handle = app.handle();
+            if let Some(splash) = handle.get_webview_window("splashscreen") {
+                let _ = splash.close();
+            }
+            if let Some(main_win) = handle.get_webview_window("main") {
+                let _ = main_win.show();
+            }
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

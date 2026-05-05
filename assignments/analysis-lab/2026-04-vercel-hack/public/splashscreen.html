@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vercel Security Analyzer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      oklch(11% 0.012 260);
+      --surface: oklch(16% 0.018 260);
+      --border:  oklch(28% 0.03 260);
+      --accent:  oklch(64% 0.22 250);
+      --text:    oklch(92% 0.008 260);
+      --subtle:  oklch(52% 0.01 260);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+    }
+
+    /* Drag region so the frameless window can still be moved */
+    body { -webkit-app-region: drag; }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 40px 48px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow:
+        0 0 0 1px oklch(0% 0 0 / 0.6),
+        0 32px 64px oklch(0% 0 0 / 0.5),
+        inset 0 1px 0 oklch(100% 0 0 / 0.06);
+    }
+
+    /* Shield icon */
+    .icon {
+      width: 64px; height: 64px;
+      background: oklch(20% 0.025 260);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      animation: glow 2.4s ease-in-out infinite;
+    }
+
+    .icon svg {
+      width: 36px; height: 36px;
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px oklch(64% 0.22 250 / 0.6));
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 12px;
+      color: var(--subtle);
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+    }
+
+    .bar-track {
+      width: 180px;
+      height: 2px;
+      background: oklch(22% 0.02 260);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), oklch(72% 0.18 220));
+      border-radius: 1px;
+      animation: sweep 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .version {
+      margin-top: 20px;
+      font-size: 11px;
+      color: oklch(38% 0.01 260);
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 0 oklch(64% 0.22 250 / 0.2); }
+      50%       { box-shadow: 0 0 0 10px oklch(64% 0.22 250 / 0); }
+    }
+
+    @keyframes sweep {
+      0%   { width: 0%; opacity: 1; }
+      60%  { width: 75%; }
+      100% { width: 100%; opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+    </div>
+
+    <h1>Vercel Security Analyzer</h1>
+    <p>Initializing…</p>
+
+    <div class="bar-track">
+      <div class="bar-fill"></div>
+    </div>
+
+    <span class="version">v0.1.0</span>
+  </div>
+</body>
+</html>

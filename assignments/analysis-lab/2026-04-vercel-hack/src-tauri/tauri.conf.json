@@ -3,27 +3,44 @@
   "productName": "Vercel Security Analyzer",
   "version": "0.1.0",
   "identifier": "com.kadirarici.vercel-security-analyzer",
+
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist"
   },
+
   "app": {
     "windows": [
       {
+        "label": "splashscreen",
+        "title": "Loading",
+        "url": "splashscreen.html",
+        "width": 420,
+        "height": 300,
+        "decorations": false,
+        "center": true,
+        "alwaysOnTop": true,
+        "resizable": false,
+        "shadow": true
+      },
+      {
+        "label": "main",
         "title": "Vercel Security Analyzer",
         "width": 1200,
         "height": 800,
         "minWidth": 900,
         "minHeight": 600,
-        "resizable": true
+        "resizable": true,
+        "visible": false
       }
     ],
     "security": {
       "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
     }
   },
+
   "bundle": {
     "active": true,
     "targets": "all",
@@ -33,6 +50,22 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "category": "DeveloperTool",
+    "shortDescription": "Analyze Vercel deployments for security misconfigurations",
+    "longDescription": "A desktop security scanner that audits Vercel projects for common misconfigurations: exposed env vars, missing security headers, insecure CORS, open redirects, and more."
+  },
+
+  "plugins": {
+    "updater": {
+      "pubkey": "",
+      "endpoints": [
+        "https://github.com/kadirarici/vercel-security-analyzer/releases/latest/download/latest.json"
+      ],
+      "dialog": true,
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }
