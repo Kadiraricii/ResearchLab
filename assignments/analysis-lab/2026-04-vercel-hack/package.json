@@ -20,14 +20,16 @@
     "@tauri-apps/plugin-opener": "^2"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^20.9.0",
+    "@playwright/test": "^1.49.0",
+    "@tauri-apps/cli": "^2",
+    "@testing-library/dom": "^10.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4",
-    "@tauri-apps/cli": "^2",
     "happy-dom": "^14.0.0",
-    "@testing-library/dom": "^10.0.0",
-    "@playwright/test": "^1.49.0"
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
   }
 }

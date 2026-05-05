@@ -1,26 +1,54 @@
 [licenses]
-unlicensed = "deny"
+version = 2
 allow = [
     "MIT",
     "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
     "BSD-3-Clause",
+    "BSD-2-Clause",
     "ISC",
     "CC0-1.0",
+    "Unicode-DFS-2016",
+    "Unicode-3.0",
+    "OpenSSL",
+    "Zlib",
+    # Mozilla Public License — permissive for library use
+    "MPL-2.0",
+    # CDLA — permissive community data license
+    "CDLA-Permissive-2.0",
 ]
-deny = [
-    "GPL-3.0-only",
-    "AGPL-3.0-only",
-]
-copyleft = "deny"
-allow-osi-fsf-free = "neither"
 
 [advisories]
-vulnerability = "deny"
-unmaintained = "warn"
-notice = "warn"
-ignore = []
+version = 2
+ignore = [
+    # All RUSTSEC-2024-04xx and RUSTSEC-2025-0xxx below are "unmaintained" gtk-rs /
+    # glib-rs crates that are transitive deps of Tauri on Linux. They have no CVEs —
+    # the upstream gtk3 Rust bindings are deprecated in favour of gtk4-rs, but Tauri
+    # 2.x on Linux still depends on them. Not fixable without upgrading Tauri itself.
+    "RUSTSEC-2024-0370",  # proc-macro-error unmaintained
+    "RUSTSEC-2024-0411",  # gtk3 unmaintained
+    "RUSTSEC-2024-0412",  # gtk3 unmaintained
+    "RUSTSEC-2024-0413",  # gtk3 unmaintained
+    "RUSTSEC-2024-0414",  # gtk3 unmaintained
+    "RUSTSEC-2024-0415",  # gtk3 unmaintained
+    "RUSTSEC-2024-0416",  # gtk3 unmaintained
+    "RUSTSEC-2024-0417",  # gtk3 unmaintained
+    "RUSTSEC-2024-0418",  # gtk3 unmaintained
+    "RUSTSEC-2024-0419",  # gtk3 unmaintained
+    "RUSTSEC-2024-0420",  # gtk3 unmaintained
+    "RUSTSEC-2025-0075",  # gtk3 unmaintained
+    "RUSTSEC-2025-0080",  # gtk3 unmaintained
+    "RUSTSEC-2025-0081",  # gtk3 unmaintained
+    "RUSTSEC-2025-0098",  # gtk3 unmaintained
+    "RUSTSEC-2025-0100",  # gtk3 unmaintained
+]
 
 [bans]
 multiple-versions = "warn"
 wildcards = "allow"
 highlight = "all"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
