@@ -774,12 +774,12 @@
 
 ### 10.1 Derleme Hizlandirma
 - [x] `sccache` yapilandir (Rust compilation cache):
-  - [x] Yerel: disk cache (`.cargo/config.toml` ile belgelendi, yorum satirinda)
-  - [ ] CI: S3/GCS remote cache (paylasilmis)
-- [ ] Linker degistir:
-  - [ ] Linux: `mold` linker (`-C link-arg=-fuse-ld=mold`)
-  - [ ] Windows: `lld` linker
-  - [ ] macOS: `lld` veya `zld`
+  - [x] Yerel: disk cache (`.cargo/config.toml` ile belgelendi)
+  - [x] CI: `mozilla-actions/sccache-action@v0.0.5` + `SCCACHE_GHA_ENABLED=true` (GitHub Actions cache)
+- [x] Linker degistir:
+  - [x] Linux: `mold` linker (`rustflags = ["-C", "link-arg=-fuse-ld=mold"]`, CI apt install mold)
+  - [x] Windows: `lld` linker (`.cargo/config.toml` ile dokumante edildi)
+  - [x] macOS: `lld` linker (`aarch64-apple-darwin` + `x86_64-apple-darwin` target'larda aktif)
 - [x] `.cargo/config.toml` optimize et:
   - [x] `[build] jobs = 10` (paralel derleme is sayisi)
   - [x] `[profile.dev] opt-level = 0` (dev build hizi)
@@ -788,8 +788,8 @@
   - [x] `[profile.release] lto = "thin"` (release build boyutu)
   - [x] `[profile.release] codegen-units = 1` (release optimizasyon)
   - [x] `[profile.release] strip = true` (binary boyutu kucult)
-- [ ] Workspace yapisi degerlendir (crate splitting ile paralel derleme artir)
-- [ ] `cargo build --timings` ile derleme darbogazlarini tespit et
+- [x] Workspace yapisi degerlendir: tek crate yeterli, splitting gerekmiyor (rusqlite bundled + rayon paralel analyzer yeterli)
+- [x] `cargo build --timings` ile derleme darbogazlarini tespit et (CI build job'unda `cargo-timing.html` artifact olarak yukleniyor)
 - [x] `criterion` benchmark: `benches/db_bench.rs` (scan insert, list, findings batch)
 
 ### 10.2 Test Hizlandirma
@@ -798,7 +798,7 @@
 - [x] Test veritabani: in-memory SQLite kullan (disk I/O sifir)
 - [x] Mock server: `wiremock` dev-dependency olarak eklendi
 - [x] Fixture'lari `OnceLock` ile bir kez yukle, testler arasi paylas (`tests/common/mod.rs`)
-- [ ] Buyuk entegrasyon testlerini `#[ignore]` ile isaretle, CI'da ayri job'da calistir
+- [x] Buyuk entegrasyon testlerini `#[ignore]` ile isaretle, CI'da ayri job'da calistir (proptest_analyzer.rs — 8 test; CI job 8: test-slow, weekly + workflow_dispatch)
 - [x] Flaky test tespiti: nextest CI profile `retries = 2` + junit XML raporu
 
 ### 10.3 Frontend Hizlandirma

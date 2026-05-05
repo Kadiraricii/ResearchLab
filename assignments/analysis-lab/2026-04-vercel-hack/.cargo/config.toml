@@ -17,8 +17,8 @@ jobs = 10
 
 # ─── Platform linker overrides ────────────────────────────────────────────────
 [target.x86_64-unknown-linux-gnu]
-# mold: fastest linker on Linux. Install: apt install mold
-# rustflags = ["-C", "link-arg=-fuse-ld=mold"]
+# mold: fastest linker on Linux (CI installs it via apt)
+rustflags = ["-C", "link-arg=-fuse-ld=mold"]
 
 [target.x86_64-apple-darwin]
 # lld is faster than Apple's default ld on Intel Mac

@@ -5,10 +5,16 @@ on:
     branches: ["main", "2026-04-vercel-hack", "develop"]
   pull_request:
     branches: ["main", "develop"]
+  workflow_dispatch: {}   # Manual trigger (also enables test-slow job)
+  schedule:
+    - cron: "0 3 * * 1"  # Weekly Monday 03:00 UTC — runs slow/proptest suite
 
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  # sccache — shared compilation cache across jobs (speeds up clean builds ~60%)
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
 
 jobs:
   # ──────────────────────────────────────────────
@@ -24,6 +30,12 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+
+      - name: Install mold linker
+        run: sudo apt-get install -y mold
 
       - name: Cache Cargo registry
         uses: actions/cache@v4
@@ -70,6 +82,12 @@ jobs:
       - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+
+      - name: Install mold linker
+        run: sudo apt-get install -y mold
+
       - name: Install cargo-nextest
         uses: taiki-e/install-action@cargo-nextest
 
@@ -105,6 +123,12 @@ jobs:
 
       - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+
+      - name: Install mold linker
+        run: sudo apt-get install -y mold
 
       - name: Install cargo-nextest
         uses: taiki-e/install-action@cargo-nextest
@@ -192,10 +216,13 @@ jobs:
       - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Linux GTK/WebKit deps
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+
+      - name: Install Linux GTK/WebKit deps + mold
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf mold
 
       - name: Cache Cargo
         uses: actions/cache@v4
@@ -209,6 +236,16 @@ jobs:
       - name: Build release
         run: cargo build --release
         working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Build timing report
+        run: cargo build --timings 2>&1 || true
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
+
+      - name: Upload build timings
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-timings
+          path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target/cargo-timings/cargo-timing.html
 
   # ──────────────────────────────────────────────
   # JOB 7: Benchmarks (main branch only)
@@ -242,3 +279,37 @@ jobs:
         with:
           name: benchmark-results
           path: assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target/criterion
+
+  # ──────────────────────────────────────────────
+  # JOB 8: Slow / Property-Based Tests (weekly or manual)
+  # ──────────────────────────────────────────────
+  test-slow:
+    name: Slow Tests (proptest + ignored)
+    runs-on: ubuntu-latest
+    # Only on manual trigger or schedule — do not block normal CI
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    needs: [test-unit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+
+      - name: Install mold linker
+        run: sudo apt-get install -y mold
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            assignments/analysis-lab/2026-04-vercel-hack/src-tauri/target
+          key: ${{ runner.os }}-cargo-slow-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run slow/ignored tests (proptest)
+        run: cargo test -- --ignored
+        working-directory: assignments/analysis-lab/2026-04-vercel-hack/src-tauri
